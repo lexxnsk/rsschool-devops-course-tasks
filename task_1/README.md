@@ -16,7 +16,7 @@ This repository contains the Terraform configuration files used for provisioning
 ### Directory & File Overview
 
 - **```screenshots/```**:
-  This directory contains screenshots that verify the correct configuration of AWS accounts, serving as visual documentation to support the infrastructure setup.
+  This directory contains screenshots that verify the correct configuration of AWS accounts and installed software versions
 - **```main.tf```**:  
   The main configuration file where the core infrastructure is defined. This typically includes high-level resources such as modules, remote backends, and resource declarations.
 
