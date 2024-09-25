@@ -20,3 +20,7 @@ variable "terraform_environment" {
   type        = string
 }
 
+variable "terraform_github_actions_role_name" {
+  description = "IAM role for Github Actions"
+  type        = string
+}
