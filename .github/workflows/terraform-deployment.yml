@@ -43,42 +43,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # - name: Set up Terraform
-      #   uses: hashicorp/setup-terraform@v3
-      #   with:
-      #     terraform_version: 1.9.6
-
       - name: Terraform Plan
         run: terraform fmt
         working-directory: task_1
 
-  # terraform_plan:
-  #   runs-on: ubuntu-latest
-  #   needs: [terraform_init, terraform_check]
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
-
-  #     # - name: Set up Terraform
-  #     #   uses: hashicorp/setup-terraform@v2
-  #     #   with:
-  #     #     terraform_version: 1.9.6
-
-  #     - name: Terraform Plan
-  #       run: terraform plan
-  #       working-directory: task_1
-
-  terraform_apply:
+  terraform_plan:
     runs-on: ubuntu-latest
-    needs: terraform_init
+    needs: terraform_check
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # - name: Set up Terraform
-      #   uses: hashicorp/setup-terraform@v2
-      #   with:
-      #     terraform_version: 1.9.6
+      - name: Terraform Plan
+        run: terraform plan
+        working-directory: task_1
+
+  terraform_apply:
+    runs-on: ubuntu-latest
+    needs: terraform_plan
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
