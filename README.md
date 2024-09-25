@@ -31,13 +31,13 @@ This repository contains the Terraform configuration files used for provisioning
 - **```outputs.tf```**:  
   This file contains the output definitions for the Terraform resources. Outputs are used to display important information after the Terraform configuration has been applied.
 - **```providers.tf```**:  
-  Specifies the providers required by the project (e.g., AWS, Google Cloud). Providers are responsible for defining resources and interacting with APIs.
+  This file specifies the providers required by the project (e.g., AWS, Google Cloud). Providers are responsible for defining resources and interacting with APIs.
 - **```resources.tf```**:  
   This file contains the specific resource declarations that will be managed by Terraform. Resources can include ec2 instances, databases, networking components, IAM roles and more.
 - **```terraform.tfvars```**:  
-  Contains variable definitions used by the Terraform configuration. 
+  This file contains variable definitions used by the Terraform configuration. 
 - **```variables.tf```**:  
-  Defines the input variables for the Terraform project. This includes variable types, default values, and descriptions, which allow users to customize the deployment.
+  This file defines the input variables for the Terraform project. This includes variable types, default values, and descriptions, which allow users to customize the deployment.
 
 ## How to Use
 
