@@ -30,7 +30,7 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
-        working-directory: task_2
+        working-directory: task_1
 
   terraform_check:
     runs-on: ubuntu-latest
