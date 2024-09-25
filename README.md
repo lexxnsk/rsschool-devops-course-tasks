@@ -1,2 +1,56 @@
-# rsschool-devops-course-tasks
-The Rolling Scopes School - AWS DevOps Course
+# The RS School - AWS DevOps Course Project Documentation
+
+This repository contains the Terraform configuration files used for provisioning and managing infrastructure. The following document explains the structure and purpose of each file and directory in the project.
+
+## File Structure
+```
+├── screenshots/
+├── main.tf
+├── outputs.tf
+├── providers.tf
+├── resources.tf
+├── terraform.tfvars
+├── variables.tf
+```
+
+### Directory & File Overview
+
+- **```screenshots/```**:
+  This directory contains screenshots that verify the correct configuration of AWS accounts and installed software versions
+- **```main.tf```**:  
+  The main configuration file where the core infrastructure is defined. This typically includes high-level resources such as modules, remote backends, and resource declarations.
+
+- **```outputs.tf```**:  
+  This file contains the output definitions for the Terraform resources. Outputs are used to display important information after the Terraform configuration has been applied.
+
+- **```providers.tf```**:  
+  Specifies the providers required by the project (e.g., AWS, Google Cloud). Providers are responsible for defining resources and interacting with APIs.
+
+- **```resources.tf```**:  
+  This file contains the specific resource declarations that will be managed by Terraform. Resources can include ec2 instances, databases, networking components, IAM roles and more.
+
+- **```terraform.tfvars```**:  
+  Contains variable definitions used by the Terraform configuration. 
+
+- **```variables.tf```**:  
+  Defines the input variables for the Terraform project. This includes variable types, default values, and descriptions, which allow users to customize the deployment.
+
+## How to Use
+
+1. **Initialize Terraform:**:  
+   Before using the configuration, comment terraform backend configuration in ```main.tf``` and initialize Terraform by running:
+   ```terraform init```
+2. **Plan and Apply Changes:**:  
+   Review changes by running:
+   ```terraform plan```  
+   And apply changes by running:
+   ```terraform apply```
+3. **Migrate Terraform S3 backend to S3:**  
+   Uncomment terraform backend configuration in main.tf and initialize Terraform by running:
+   ```terraform init```
+4. **Plan and Apply Changes:**:  
+   Review changes by running:
+   ```terraform plan```  
+   And apply changes by running:
+   ```terraform apply```
+5. **Now you have up and running Terraform using S3 bucket and Dynamo DB as a backend**:  

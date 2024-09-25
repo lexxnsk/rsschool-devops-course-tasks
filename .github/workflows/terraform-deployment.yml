@@ -8,11 +8,6 @@ on:
     branches:
       - dev
 
-# Defaults set at workflow level for all jobs
-defaults:
-  run:
-    working-directory: ./task_1
-
 # Permissions set at workflow level for all jobs
 permissions:
   id-token: write
@@ -40,7 +35,6 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
-        working-directory: task_1
 
   terraform_check:
     runs-on: ubuntu-latest
@@ -51,7 +45,6 @@ jobs:
 
       - name: Terraform Plan
         run: terraform fmt
-        working-directory: task_1
 
   terraform_plan:
     runs-on: ubuntu-latest
@@ -73,11 +66,9 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
-        working-directory: task_1
 
       - name: Terraform Plan
         run: terraform plan
-        working-directory: task_1
 
   terraform_apply:
     runs-on: ubuntu-latest
@@ -99,8 +90,6 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
-        working-directory: task_1
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
-        working-directory: task_1
