@@ -8,12 +8,16 @@ on:
     branches:
       - task_1
 
+# Defaults set at workflow level for all jobs
 defaults:
   run:
     working-directory: ./task_1
-  permissions:
-    id-token: write 
-    
+
+# Permissions set at workflow level for all jobs
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   terraform_init:
     runs-on: ubuntu-latest
