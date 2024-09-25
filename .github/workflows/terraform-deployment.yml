@@ -54,6 +54,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: eu-central-1
+          role-to-assume: arn:aws:iam::864899869895:role/GithubActionsRole
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.6
+
       - name: Terraform Init
         run: terraform init
         working-directory: task_1
@@ -69,10 +80,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: eu-central-1
+          role-to-assume: arn:aws:iam::864899869895:role/GithubActionsRole
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.6
+          
       - name: Terraform Init
         run: terraform init
         working-directory: task_1
-        
+
       - name: Terraform Apply
         run: terraform apply -auto-approve
         working-directory: task_1
