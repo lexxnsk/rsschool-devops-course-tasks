@@ -4,6 +4,7 @@ This repository contains the Terraform configuration files used for provisioning
 
 ## File Structure
 ```
+├── .github/workflows/
 ├── screenshots/
 ├── .gitignore
 ├── README.md
@@ -17,6 +18,8 @@ This repository contains the Terraform configuration files used for provisioning
 
 ### Directory & File Overview
 
+- **```.github/workflows/```**:
+  This directory is a special folder in a GitHub repository that contains YAML files defining GitHub Actions workflows. 
 - **```screenshots/```**:
   This directory contains screenshots that verify the correct configuration of AWS accounts and installed software versions.
 - **```.gitignore```**:
