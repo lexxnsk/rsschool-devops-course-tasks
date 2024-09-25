@@ -9,20 +9,20 @@ on:
       - task_1
 
 jobs:
-  terraform_init:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+  # terraform_init:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
 
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 1.9.6
+  #     - name: Set up Terraform
+  #       uses: hashicorp/setup-terraform@v2
+  #       with:
+  #         terraform_version: 1.9.6
 
-      - name: Terraform Init
-        run: terraform init
-        working-directory: task_1
+  #     - name: Terraform Init
+  #       run: terraform init
+  #       working-directory: task_1
 
   terraform_check:
     runs-on: ubuntu-latest
