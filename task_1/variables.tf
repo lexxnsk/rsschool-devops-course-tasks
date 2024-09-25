@@ -24,3 +24,8 @@ variable "terraform_github_actions_role_name" {
   description = "IAM role for Github Actions"
   type        = string
 }
+
+variable "terraform_github_actions_IODC_provider_name" {
+  description = "GitHub Actions OIDC Provider"
+  type        = string
+}
