@@ -18,15 +18,15 @@ This repository contains the Terraform configuration files used for provisioning
 
 ### Directory & File Overview
 
-- **```.github/workflows/```**:
+- **```.github/workflows/```**:  
   This directory is a special folder in a GitHub repository that contains YAML files defining GitHub Actions workflows. 
-- **```screenshots/```**:
+- **```screenshots/```**:  
   This directory contains screenshots that verify the correct configuration of AWS accounts and installed software versions.
-- **```.gitignore```**:
+- **```.gitignore```**:  
   This file specifies which files or directories should be ignored by Git when tracking changes in a repository.
-- **```README.md```**:
+- **```README.md```**:  
   This file in GitHub serves as the primary documentation for a repository (you're reading it right now).
-- **```main.tf```**:
+- **```main.tf```**:  
   The main configuration file where the core infrastructure is defined. This typically includes high-level resources such as modules, remote backends, and resource declarations.
 - **```outputs.tf```**:  
   This file contains the output definitions for the Terraform resources. Outputs are used to display important information after the Terraform configuration has been applied.
