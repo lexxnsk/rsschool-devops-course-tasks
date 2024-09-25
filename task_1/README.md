@@ -42,7 +42,7 @@ This repository contains the Terraform configuration files used for provisioning
    ```terraform init```
 2. **Plan and Apply Changes:**:  
    Review changes by running:
-   ```terraform plan```
+   ```terraform plan```  
    And apply changes by running:
    ```terraform apply```
 3. **Migrate Terraform S3 backend to S3:**  
