@@ -3,10 +3,10 @@ name: Terraform Deployment
 on:
   pull_request:
     branches:
-      - task_1
+      - dev
   push:
     branches:
-      - task_1
+      - dev
 
 # Permissions set at workflow level for all jobs
 permissions:
