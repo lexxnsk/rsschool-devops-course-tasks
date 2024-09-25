@@ -53,7 +53,7 @@ jobs:
           terraform_version: 1.9.6
 
       - name: Terraform Plan
-        run: terraform 
+        run: terraform plan
         working-directory: task_1
 
   terraform_apply:
