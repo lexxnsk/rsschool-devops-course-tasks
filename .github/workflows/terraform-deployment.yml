@@ -11,7 +11,7 @@ on:
 defaults:
   run:
     working-directory: ./task_1
-
+  
 jobs:
   terraform_init:
     runs-on: ubuntu-latest
@@ -54,6 +54,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Terraform Init
+        run: terraform init
+        working-directory: task_1
+
       - name: Terraform Plan
         run: terraform plan
         working-directory: task_1
@@ -65,6 +69,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Terraform Init
+        run: terraform init
+        working-directory: task_1
+        
       - name: Terraform Apply
         run: terraform apply -auto-approve
         working-directory: task_1
