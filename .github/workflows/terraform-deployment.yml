@@ -50,7 +50,7 @@ jobs:
 
   terraform_plan:
     runs-on: ubuntu-latest
-    needs: terraform_check
+    needs: [terraform_init, terraform_check]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
