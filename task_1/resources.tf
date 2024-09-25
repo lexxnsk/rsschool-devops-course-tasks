@@ -49,11 +49,17 @@ resource "aws_iam_role" "terraform_github_actions_role" {
 
 data "aws_iam_policy_document" "github_actions_assume_role_policy" {
   statement {
-    actions = ["sts:AssumeRole"]
+    actions = ["sts:AssumeRoleWithWebIdentity"]
 
     principals {
-      type        = "Service"
-      identifiers = ["ec2.amazonaws.com"]  # Update as needed for GitHub Actions
+      type        = "Federated"
+      identifiers = [aws_iam_openid_connect_provider.github_actions_IODC_provider.arn]  # Update as needed for GitHub Actions
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "token.actions.githubusercontent.com:sub"
+      values   = ["repo:lexxnsk/rsschool-devops-course-tasks:ref:refs/heads/dev"]
     }
   }
 }
