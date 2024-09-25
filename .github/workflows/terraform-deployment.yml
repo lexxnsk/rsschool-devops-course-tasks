@@ -1,0 +1,69 @@
+name: Terraform Deployment
+
+on:
+  pull_request:
+    branches:
+      - main  # Change to your default branch if different
+  push:
+    branches:
+      - main  # Change to your default branch if different
+
+jobs:
+  terraform_init:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.4.0  # Change to your desired version
+
+      - name: Terraform Init
+        run: terraform init
+
+  terraform_check:
+    runs-on: ubuntu-latest
+    needs: terraform_init  # This job depends on the init job
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.9.6
+
+      - name: Terraform Plan
+        run: terraform fmt
+
+  terraform_plan:
+    runs-on: ubuntu-latest
+    needs: terraform_init  # This job depends on the init job
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.9.6
+
+      - name: Terraform Plan
+        run: terraform plan
+
+  terraform_apply:
+    runs-on: ubuntu-latest
+    needs: terraform_plan  # This job depends on the plan job
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.4.0  # Change to your desired version
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
