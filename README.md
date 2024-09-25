@@ -50,7 +50,7 @@ This repository contains the Terraform configuration files used for provisioning
    Apply changes by running:
    ```terraform apply```
 3. **Migrate Terraform S3 backend to S3:**  
-   Uncomment terraform backend configuration in ```main.tf``` and initialize Terraform by running:
+   Uncomment terraform backend configuration in ```main.tf```  and initialize Terraform by running:
    ```terraform init```
 4. **Plan and Apply Changes:**  
    Review changes by running:
