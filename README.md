@@ -1,11 +1,12 @@
-# The RS School - AWS DevOps Course.  
-# Project Documentation
+# The RS School - AWS DevOps Course. Project Documentation.
 
 This repository contains the Terraform configuration files used for provisioning and managing infrastructure. The following document explains the structure and purpose of each file and directory in the project.
 
 ## File Structure
 ```
 ├── screenshots/
+├── .gitignore
+├── README.md
 ├── main.tf
 ├── outputs.tf
 ├── providers.tf
@@ -17,22 +18,21 @@ This repository contains the Terraform configuration files used for provisioning
 ### Directory & File Overview
 
 - **```screenshots/```**:
-  This directory contains screenshots that verify the correct configuration of AWS accounts and installed software versions
-- **```main.tf```**:  
+  This directory contains screenshots that verify the correct configuration of AWS accounts and installed software versions.
+- **```.gitignore```**:
+  This file specifies which files or directories should be ignored by Git when tracking changes in a repository.
+- **```README.md```**:
+  This file in GitHub serves as the primary documentation for a repository (you're reading it right now).
+- **```main.tf```**:
   The main configuration file where the core infrastructure is defined. This typically includes high-level resources such as modules, remote backends, and resource declarations.
-
 - **```outputs.tf```**:  
   This file contains the output definitions for the Terraform resources. Outputs are used to display important information after the Terraform configuration has been applied.
-
 - **```providers.tf```**:  
   Specifies the providers required by the project (e.g., AWS, Google Cloud). Providers are responsible for defining resources and interacting with APIs.
-
 - **```resources.tf```**:  
   This file contains the specific resource declarations that will be managed by Terraform. Resources can include ec2 instances, databases, networking components, IAM roles and more.
-
 - **```terraform.tfvars```**:  
   Contains variable definitions used by the Terraform configuration. 
-
 - **```variables.tf```**:  
   Defines the input variables for the Terraform project. This includes variable types, default values, and descriptions, which allow users to customize the deployment.
 
