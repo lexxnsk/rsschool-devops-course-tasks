@@ -15,6 +15,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::864899869895:role/GithubActionsRole
+          aws-region: us-east-2
+
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v2
         with:
