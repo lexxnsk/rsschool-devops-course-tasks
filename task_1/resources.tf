@@ -1,6 +1,6 @@
 # resources.tf
 
-# Create S3 bucket to store Terraform state
+# S3 bucket for storing Terraform state
 resource "aws_s3_bucket" "terraform_state_s3_bucket" {
   bucket = var.terraform_state_s3_bucket_name
   force_destroy = true
@@ -11,7 +11,7 @@ resource "aws_s3_bucket" "terraform_state_s3_bucket" {
   }
 }
 
-# Enable versioning for Terraform state S3 bucket
+# S3 bucket versioning enable
 resource "aws_s3_bucket_versioning" "terraform_state_s3_bucket" {
   bucket = var.terraform_state_s3_bucket_name
   versioning_configuration {
@@ -19,10 +19,10 @@ resource "aws_s3_bucket_versioning" "terraform_state_s3_bucket" {
   }
 }
 
-# Create DynamoDB table to store Terraform state locking
+# DynamoDB table for storing Terraform locking state
 resource "aws_dynamodb_table" "terraform_state_lock_table" {
   name         = var.terraform_state_lock_table_name
-  billing_mode = "PAY_PER_REQUEST" # Change this to "PROVISIONED" if needed
+  billing_mode = "PAY_PER_REQUEST"
   hash_key     = "LockID"
 
   attribute {

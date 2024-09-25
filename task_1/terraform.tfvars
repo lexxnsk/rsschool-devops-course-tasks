@@ -1,6 +1,6 @@
 # terraform.tfvars
 
-aws_region = "eu-central-1"                                                # Default AWS region to deploy resources
-terraform_state_s3_bucket_name = "amyslivets.terraform-state-s3-bucket"    # The name of the S3 bucket for Terraform state
-terraform_state_lock_table_name = "amyslivets.terraform-state-lock-table" 
-terraform_environment = "dev"                                              # The environment (e.g., dev, prod)
+aws_region = "eu-central-1"                                                # AWS region for resource deployment
+terraform_state_s3_bucket_name = "amyslivets.terraform-state-s3-bucket"    # Name of the S3 bucket for storing Terraform state
+terraform_state_lock_table_name = "amyslivets.terraform-state-lock-table"  # Name of the DynamoDB table for storing Terraform locking state
+terraform_environment = "dev"                                              # Environment (e.g., dev, prod)
