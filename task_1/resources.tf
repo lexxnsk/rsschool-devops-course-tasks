@@ -55,7 +55,11 @@ data "aws_iam_policy_document" "github_actions_assume_role_policy" {
       type        = "Federated"
       identifiers = [aws_iam_openid_connect_provider.github_actions_IODC_provider.arn]
     }
-
+    condition {
+      test     = "StringEquals"
+      variable = "token.actions.githubusercontent.com:aud"
+      values   = ["sts.amazonaws.com"]
+    }
     condition {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
