@@ -22,6 +22,7 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
+        working-directory: task_1
 
   terraform_check:
     runs-on: ubuntu-latest
@@ -37,6 +38,7 @@ jobs:
 
       - name: Terraform Plan
         run: terraform fmt
+        working-directory: task_1
 
   terraform_plan:
     runs-on: ubuntu-latest
@@ -51,7 +53,8 @@ jobs:
           terraform_version: 1.9.6
 
       - name: Terraform Plan
-        run: terraform plan
+        run: terraform 
+        working-directory: task_1
 
   terraform_apply:
     runs-on: ubuntu-latest
@@ -67,3 +70,4 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
+        working-directory: task_1
