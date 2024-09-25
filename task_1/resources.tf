@@ -61,9 +61,9 @@ data "aws_iam_policy_document" "github_actions_assume_role_policy" {
       values   = ["sts.amazonaws.com"]
     }
     condition {
-      test     = "StringEquals"
+      test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:lexxnsk/rsschool-devops-course-tasks:ref:refs/heads/*"]
+      values   = ["repo:lexxnsk/rsschool-devops-course-tasks:*"]
     }
   }
 }
