@@ -69,7 +69,7 @@ data "aws_iam_policy_document" "github_actions_assume_role_policy" {
   }
 }
 
-# Attach Policies to the IAM role
+# Attach Required Policies to the IAM role
 resource "aws_iam_role_policy_attachment" "ec2_full_access" {
   role       = aws_iam_role.terraform_github_actions_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
@@ -105,22 +105,17 @@ resource "aws_iam_role_policy_attachment" "eventbridge_full_access" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEventBridgeFullAccess"
 }
 
-# resource "aws_iam_role_policy_attachment" "AmazonDynamoDBFullAccess" {
-#   role       = aws_iam_role.terraform_github_actions_role.name
-#   policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
-# }
-
-# Create the custom DynamoDB access policy to let Terraform access DynamoDB 
-resource "aws_iam_policy" "terraform_dynamodb_access" {
-  name        = "DynamoDBTerraformServiceRolePolicy"
-  description = "Custom Service Role policy for Terraform to access DynamoDB for state locking"
+# Create the custom DynamoDB access policy to let Terraform access DynamoDB table for storing Terraform locking state
+resource "aws_iam_policy" "terraform_dynamodb_access_policy" {
+  name        = var.terraform_dynamodb_access_policy_name
+  description = var.terraform_dynamodb_access_policy_name.description
 
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
-        Effect    = "Allow"
-        Action    = [
+        Effect = "Allow"
+        Action = [
           "dynamodb:PutItem",
           "dynamodb:GetItem",
           "dynamodb:DeleteItem",
@@ -129,7 +124,7 @@ resource "aws_iam_policy" "terraform_dynamodb_access" {
           "dynamodb:DescribeTimeToLive",
           "dynamodb:ListTagsOfResource"
         ]
-        Resource  = "arn:aws:dynamodb:eu-central-1:864899869895:table/${var.terraform_state_lock_table_name}"
+        Resource = "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/${var.terraform_state_lock_table_name}"
       },
     ]
   })
@@ -138,7 +133,7 @@ resource "aws_iam_policy" "terraform_dynamodb_access" {
 # Attach the custom DynamoDB access policy to the IAM role
 resource "aws_iam_role_policy_attachment" "terraform_dynamodb_access" {
   role       = aws_iam_role.terraform_github_actions_role.name
-  policy_arn = aws_iam_policy.terraform_dynamodb_access.arn
+  policy_arn = aws_iam_policy.terraform_dynamodb_access_policy.arn
 }
 
 # GitHub Actions OIDC Provider

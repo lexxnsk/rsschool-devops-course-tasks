@@ -5,6 +5,11 @@ variable "aws_region" {
   type        = string
 }
 
+variable "aws_account_id" {
+  description = "AWS Account ID"
+  type        = string
+}
+
 variable "terraform_state_s3_bucket_name" {
   description = "The name of the S3 bucket for Terraform state"
   type        = string
@@ -27,5 +32,10 @@ variable "terraform_github_actions_role_name" {
 
 variable "terraform_github_actions_IODC_provider_name" {
   description = "GitHub Actions OIDC Provider"
+  type        = string
+}
+
+variable "terraform_dynamodb_access_policy_name" {
+  description = "Custom Service Role policy for Terraform to access DynamoDB for state locking"
   type        = string
 }
