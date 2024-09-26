@@ -103,4 +103,4 @@ jobs:
           role-to-assume: arn:aws:iam::864899869895:role/GithubActionsRole
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve
+        run: terraform apply 
