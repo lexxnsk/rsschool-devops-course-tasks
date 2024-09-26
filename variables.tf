@@ -6,9 +6,9 @@ variable "aws_region" {
   default     = "eu-central-1"
 }
 
-# variable "aws_account_id" {
-#   description = "AWS Account ID"
-#   type        = string
+variable "aws_account_id" {
+  description = "AWS Account ID"
+  type        = string
 # default     = "864899869895"
 # }
 
