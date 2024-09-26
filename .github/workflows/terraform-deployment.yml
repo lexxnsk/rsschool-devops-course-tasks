@@ -36,14 +36,6 @@ jobs:
       - name: List files in the working directory
         run: ls -la
 
-      # - name: Archive terraform artifacts
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: terraform-artifacts
-      #     include-hidden-files: true
-      #     path: '.terraform*'
-      #     if-no-files-found: error
-
       - name: Create terraform cache
         uses: actions/cache/save@v4
         with:
@@ -57,6 +49,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Restore terraform cache
+        uses: actions/cache/restore@v4
+        with:
+          path: .terraform*
+          key: terraform-cache-${{ runner.os }}-${{ github.run_id }}
+          fail-on-cache-miss: true
+          
       - name: Terraform Plan
         run: terraform fmt
 
@@ -67,11 +66,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # - name: Download terraform artifacts
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: terraform-artifacts
-
       - name: Restore terraform cache
         uses: actions/cache/restore@v4
         with:
@@ -79,22 +73,11 @@ jobs:
           key: terraform-cache-${{ runner.os }}-${{ github.run_id }}
           fail-on-cache-miss: true
 
-      - name: List files in the working directory
-        run: ls -la
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: eu-central-1
           role-to-assume: arn:aws:iam::864899869895:role/GithubActionsRole
-
-      # - name: Set up Terraform
-      #   uses: hashicorp/setup-terraform@v3
-      #   with:
-      #     terraform_version: 1.9.6
-
-      # - name: Terraform Init
-      #   run: terraform init
 
       - name: Terraform Plan
         run: terraform plan
@@ -106,12 +89,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # - name: Download terraform artifacts
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: terraform-artifacts
-
-      - name: Restore cache from job1
+      - name: Restore terraform cache
         uses: actions/cache/restore@v4
         with:
           path: .terraform*
@@ -123,14 +101,6 @@ jobs:
         with:
           aws-region: eu-central-1
           role-to-assume: arn:aws:iam::864899869895:role/GithubActionsRole
-
-      # - name: Set up Terraform
-      #   uses: hashicorp/setup-terraform@v3
-      #   with:
-      #     terraform_version: 1.9.6
-
-      # - name: Terraform Init
-      #   run: terraform init
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
