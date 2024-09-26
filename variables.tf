@@ -39,3 +39,8 @@ variable "terraform_dynamodb_access_policy_name" {
   description = "Custom Service Role policy for Terraform to access DynamoDB for state locking"
   type        = string
 }
+
+variable "terraform_dynamodb_access_policy_name_description" {
+  description = "Custom Service Role policy for Terraform to access DynamoDB for state locking"
+  type        = string
+}

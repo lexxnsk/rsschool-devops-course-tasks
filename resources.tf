@@ -108,7 +108,7 @@ resource "aws_iam_role_policy_attachment" "eventbridge_full_access" {
 # Create the custom DynamoDB access policy to let Terraform access DynamoDB table for storing Terraform locking state
 resource "aws_iam_policy" "terraform_dynamodb_access_policy" {
   name        = var.terraform_dynamodb_access_policy_name
-  description = var.terraform_dynamodb_access_policy_name.description
+  description = var.terraform_dynamodb_access_policy_name_description
 
   policy = jsonencode({
     Version = "2012-10-17"
