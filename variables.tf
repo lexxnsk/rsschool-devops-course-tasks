@@ -7,7 +7,7 @@ variable "aws_region" {
 }
 
 variable "aws_account_id" {
-  description = "AWS Account ID. It is stored in GitHub Secrets"
+  description = "AWS Account ID. It is stored in GitHub Secrets and taken later from environmental variables"
   type        = string
 }
 
