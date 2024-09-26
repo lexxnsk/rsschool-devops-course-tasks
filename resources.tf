@@ -122,6 +122,7 @@ resource "aws_iam_policy" "terraform_dynamodb_access" {
         Action    = [
           "dynamodb:PutItem",
           "dynamodb:GetItem",
+          "dynamodb:DeleteItem"
         ]
         Resource  = "arn:aws:dynamodb:eu-central-1:864899869895:table/${var.terraform_state_lock_table_name}"
       },
