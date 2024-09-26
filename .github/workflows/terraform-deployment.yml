@@ -33,9 +33,6 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
-      - name: List files in the working directory
-        run: ls -la
-
       - name: Create terraform cache
         uses: actions/cache/save@v4
         with:
