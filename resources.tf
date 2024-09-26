@@ -110,6 +110,7 @@ resource "aws_iam_role_policy_attachment" "eventbridge_full_access" {
 #   policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
 # }
 
+# Create the custom DynamoDB access policy to let Terraform access DynamoDB 
 resource "aws_iam_policy" "terraform_dynamodb_access" {
   name        = "TerraformDynamoDBAccess"
   description = "Custom policy for Terraform to access DynamoDB for state locking"
@@ -122,7 +123,8 @@ resource "aws_iam_policy" "terraform_dynamodb_access" {
         Action    = [
           "dynamodb:PutItem",
           "dynamodb:GetItem",
-          "dynamodb:DeleteItem"
+          "dynamodb:DeleteItem",
+          "dynamodb:DescribeTable"
         ]
         Resource  = "arn:aws:dynamodb:eu-central-1:864899869895:table/${var.terraform_state_lock_table_name}"
       },
@@ -130,7 +132,7 @@ resource "aws_iam_policy" "terraform_dynamodb_access" {
   })
 }
 
-# Attach Policies to the IAM role
+# Attach the custom DynamoDB access policy to the IAM role
 resource "aws_iam_role_policy_attachment" "terraform_dynamodb_access" {
   role       = aws_iam_role.terraform_github_actions_role.name
   policy_arn = aws_iam_policy.terraform_dynamodb_access.arn
