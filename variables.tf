@@ -6,11 +6,11 @@ variable "aws_region" {
   default     = "eu-central-1"
 }
 
-variable "AWS_ACCOUNT_ID" {
-  description = "AWS Account ID"
-  type        = string
-  # default     = "864899869895"
-}
+# variable "aws_account_id" {
+#   description = "AWS Account ID"
+#   type        = string
+# default     = "864899869895"
+# }
 
 variable "terraform_state_s3_bucket_name" {
   description = "The Name of the S3 bucket for storing Terraform state"
