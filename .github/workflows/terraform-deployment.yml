@@ -9,7 +9,6 @@ on:
       - task_1
 
 env:
-  aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
   TERRAFORM_GITHUB_ACTIONS_ROLE_NAME: GithubActionsRole
 
