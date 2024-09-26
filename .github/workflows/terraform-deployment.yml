@@ -10,6 +10,7 @@ on:
 
 env:
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+  TF_VAR_aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
   TERRAFORM_GITHUB_ACTIONS_ROLE_NAME: GithubActionsRole
 
 permissions:
@@ -106,6 +107,4 @@ jobs:
           role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/${{ env.TERRAFORM_GITHUB_ACTIONS_ROLE_NAME }}
 
       - name: Terraform Apply
-        env:
-          TF_VAR_aws_account_id: ${{ env.AWS_ACCOUNT_ID }}
         run: terraform apply
