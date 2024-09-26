@@ -1,1 +1,0 @@
-aws_account_id = "${env.AWS_ACCOUNT_ID}" # AWS Account ID. It is stored in GitHub Secrets and taken later from environmental variables
