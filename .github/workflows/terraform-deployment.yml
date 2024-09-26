@@ -88,11 +88,11 @@ jobs:
       - name: List files in the working directory
         run: ls -la
 
-      # - name: Configure AWS credentials
-      #   uses: aws-actions/configure-aws-credentials@v4
-      #   with:
-      #     aws-region: eu-central-1
-      #     role-to-assume: arn:aws:iam::864899869895:role/GithubActionsRole
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: eu-central-1
+          role-to-assume: arn:aws:iam::864899869895:role/GithubActionsRole
 
       # - name: Set up Terraform
       #   uses: hashicorp/setup-terraform@v3
@@ -124,11 +124,11 @@ jobs:
           key: terraform-cache-${{ runner.os }}-${{ github.run_id }}
           fail-on-cache-miss: true
 
-      # - name: Configure AWS credentials
-      #   uses: aws-actions/configure-aws-credentials@v4
-      #   with:
-      #     aws-region: eu-central-1
-      #     role-to-assume: arn:aws:iam::864899869895:role/GithubActionsRole
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: eu-central-1
+          role-to-assume: arn:aws:iam::864899869895:role/GithubActionsRole
 
       # - name: Set up Terraform
       #   uses: hashicorp/setup-terraform@v3
