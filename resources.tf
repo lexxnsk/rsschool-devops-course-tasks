@@ -110,7 +110,30 @@ resource "aws_iam_role_policy_attachment" "eventbridge_full_access" {
 #   policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
 # }
 
+resource "aws_iam_policy" "terraform_dynamodb_access" {
+  name        = "TerraformDynamoDBAccess"
+  description = "Custom policy for Terraform to access DynamoDB for state locking"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect    = "Allow"
+        Action    = [
+          "dynamodb:PutItem",
+          "dynamodb:GetItem",
+        ]
+        Resource  = "arn:aws:dynamodb:eu-central-1:864899869895:table/${var.terraform_state_lock_table_name}"
+      },
+    ]
+  })
+}
+
 # Attach Policies to the IAM role
+resource "aws_iam_role_policy_attachment" "terraform_dynamodb_access" {
+  role       = aws_iam_role.terraform_github_actions_role.name
+  policy_arn = aws_iam_policy.terraform_dynamodb_access.arn
+}
 
 # GitHub Actions OIDC Provider
 resource "aws_iam_openid_connect_provider" "github_actions_IODC_provider" {
