@@ -9,7 +9,7 @@ variable "aws_region" {
 variable "aws_account_id" {
   description = "AWS Account ID"
   type        = string
-  default     = "864899869895"
+  # default     = "864899869895"
 }
 
 variable "terraform_state_s3_bucket_name" {

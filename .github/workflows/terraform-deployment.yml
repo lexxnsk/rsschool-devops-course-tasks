@@ -9,8 +9,7 @@ on:
       - task_1
 
 env:
-  AWS_ACCOUNT_ID: 864899869895
-  TERRAFORM_GITHUB_ACTIONS_ROLE_NAME: GithubActionsRole
+  aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
 
 permissions:
   id-token: write
