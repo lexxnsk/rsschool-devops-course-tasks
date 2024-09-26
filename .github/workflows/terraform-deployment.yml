@@ -35,13 +35,21 @@ jobs:
       - name: List files in the working directory
         run: ls -la
 
-      - name: Archive terraform artifacts
-        uses: actions/upload-artifact@v4
+      # - name: Archive terraform artifacts
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: terraform-artifacts
+      #     include-hidden-files: true
+      #     path: '.terraform*'
+      #     if-no-files-found: error
+
+      - name: Cache terraform artifacts
+        uses: actions/cache/save@v4
+        id: terraform-cache
         with:
-          name: terraform-artifacts
-          include-hidden-files: true
-          path: '.terraform*'
-          if-no-files-found: error
+          path: ~/.terraform*
+          key: terraform-cache
+          fail-on-cache-miss: true
 
   terraform_check:
     runs-on: ubuntu-latest
