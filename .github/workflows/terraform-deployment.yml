@@ -14,8 +14,6 @@ permissions:
 jobs:
   terraform_init:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -33,6 +31,12 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
+
+      - name: Archive terraform artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform artifacts
+          path: .terraform/
 
   terraform_check:
     runs-on: ubuntu-latest
@@ -51,19 +55,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      - name: Download terraform artifacts
+        uses: actions/download-artifact@v4
         with:
-          aws-region: eu-central-1
-          role-to-assume: arn:aws:iam::864899869895:role/GithubActionsRole
+          name: terraform artifacts
 
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.9.6
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     aws-region: eu-central-1
+      #     role-to-assume: arn:aws:iam::864899869895:role/GithubActionsRole
 
-      - name: Terraform Init
-        run: terraform init
+      # - name: Set up Terraform
+      #   uses: hashicorp/setup-terraform@v3
+      #   with:
+      #     terraform_version: 1.9.6
+
+      # - name: Terraform Init
+      #   run: terraform init
 
       - name: Terraform Plan
         run: terraform plan
@@ -75,19 +84,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      - name: Download terraform artifacts
+        uses: actions/download-artifact@v4
         with:
-          aws-region: eu-central-1
-          role-to-assume: arn:aws:iam::864899869895:role/GithubActionsRole
+          name: terraform artifacts
+          
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     aws-region: eu-central-1
+      #     role-to-assume: arn:aws:iam::864899869895:role/GithubActionsRole
 
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.9.6
+      # - name: Set up Terraform
+      #   uses: hashicorp/setup-terraform@v3
+      #   with:
+      #     terraform_version: 1.9.6
 
-      - name: Terraform Init
-        run: terraform init
+      # - name: Terraform Init
+      #   run: terraform init
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
