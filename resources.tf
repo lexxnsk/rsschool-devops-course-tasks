@@ -36,7 +36,7 @@ resource "aws_dynamodb_table" "terraform_state_lock_table" {
   }
 }
 
-# IAM Role for GitHub Actions
+# IAM role used by GitHub Actions
 resource "aws_iam_role" "terraform_github_actions_role" {
   name               = var.terraform_github_actions_role_name
   assume_role_policy = data.aws_iam_policy_document.github_actions_assume_role_policy.json
@@ -70,39 +70,44 @@ data "aws_iam_policy_document" "github_actions_assume_role_policy" {
 }
 
 # Attach Required Policies to the IAM role
-resource "aws_iam_role_policy_attachment" "ec2_full_access" {
-  role       = aws_iam_role.terraform_github_actions_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
-}
+# resource "aws_iam_role_policy_attachment" "ec2_full_access" {
+#   role       = aws_iam_role.terraform_github_actions_role.name
+#   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
+# }
 
-resource "aws_iam_role_policy_attachment" "route53_full_access" {
-  role       = aws_iam_role.terraform_github_actions_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonRoute53FullAccess"
-}
+# resource "aws_iam_role_policy_attachment" "route53_full_access" {
+#   role       = aws_iam_role.terraform_github_actions_role.name
+#   policy_arn = "arn:aws:iam::aws:policy/AmazonRoute53FullAccess"
+# }
 
-resource "aws_iam_role_policy_attachment" "s3_full_access" {
-  role       = aws_iam_role.terraform_github_actions_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
-}
+# resource "aws_iam_role_policy_attachment" "s3_full_access" {
+#   role       = aws_iam_role.terraform_github_actions_role.name
+#   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+# }
 
-resource "aws_iam_role_policy_attachment" "iam_full_access" {
-  role       = aws_iam_role.terraform_github_actions_role.name
-  policy_arn = "arn:aws:iam::aws:policy/IAMFullAccess"
-}
+# resource "aws_iam_role_policy_attachment" "iam_full_access" {
+#   role       = aws_iam_role.terraform_github_actions_role.name
+#   policy_arn = "arn:aws:iam::aws:policy/IAMFullAccess"
+# }
 
-resource "aws_iam_role_policy_attachment" "vpc_full_access" {
-  role       = aws_iam_role.terraform_github_actions_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonVPCFullAccess"
-}
+# resource "aws_iam_role_policy_attachment" "vpc_full_access" {
+#   role       = aws_iam_role.terraform_github_actions_role.name
+#   policy_arn = "arn:aws:iam::aws:policy/AmazonVPCFullAccess"
+# }
 
-resource "aws_iam_role_policy_attachment" "sqs_full_access" {
-  role       = aws_iam_role.terraform_github_actions_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSQSFullAccess"
-}
+# resource "aws_iam_role_policy_attachment" "sqs_full_access" {
+#   role       = aws_iam_role.terraform_github_actions_role.name
+#   policy_arn = "arn:aws:iam::aws:policy/AmazonSQSFullAccess"
+# }
 
-resource "aws_iam_role_policy_attachment" "eventbridge_full_access" {
+# resource "aws_iam_role_policy_attachment" "eventbridge_full_access" {
+#   role       = aws_iam_role.terraform_github_actions_role.name
+#   policy_arn = "arn:aws:iam::aws:policy/AmazonEventBridgeFullAccess"
+# }
+resource "aws_iam_role_policy_attachment" "required_iam_policies" {
+  for_each   = toset(var.required_iam_policies)
   role       = aws_iam_role.terraform_github_actions_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEventBridgeFullAccess"
+  policy_arn = each.value
 }
 
 # Create the custom DynamoDB access policy to let Terraform access DynamoDB table for storing Terraform locking state
@@ -114,16 +119,8 @@ resource "aws_iam_policy" "terraform_dynamodb_access_policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect = "Allow"
-        Action = [
-          "dynamodb:PutItem",
-          "dynamodb:GetItem",
-          "dynamodb:DeleteItem",
-          "dynamodb:DescribeTable",
-          "dynamodb:DescribeContinuousBackups",
-          "dynamodb:DescribeTimeToLive",
-          "dynamodb:ListTagsOfResource"
-        ]
+        Effect   = "Allow"
+        Action   = var.terraform_dynamodb_access_allowed_actions
         Resource = "arn:aws:dynamodb:${var.aws_region}:${var.aws_account_id}:table/${var.terraform_state_lock_table_name}"
       },
     ]
