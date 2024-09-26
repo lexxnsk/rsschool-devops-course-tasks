@@ -43,12 +43,18 @@ jobs:
       #     path: '.terraform*'
       #     if-no-files-found: error
 
-      - name: Cache terraform artifacts
-        uses: actions/cache/save@v4
-        id: terraform-cache
+      # - name: Cache terraform artifacts
+      #   uses: actions/cache/save@v4
+      #   id: terraform-cache
+      #   with:
+      #     path: ~/.terraform*
+      #     key: terraform-cache
+
+      - name: Cache files (save cache in job1)
+        uses: actions/cache@v4
         with:
-          path: ~/.terraform*
-          key: terraform-cache
+          path: .terraform*
+          key: terraform-cache-${{ runner.os }}-${{ hashFiles('.terraform*') }}
 
   terraform_check:
     runs-on: ubuntu-latest
