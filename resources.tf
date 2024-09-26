@@ -125,7 +125,8 @@ resource "aws_iam_policy" "terraform_dynamodb_access" {
           "dynamodb:GetItem",
           "dynamodb:DeleteItem",
           "dynamodb:DescribeTable",
-          "dynamodb:DescribeContinuousBackups"
+          "dynamodb:DescribeContinuousBackups",
+          "dynamodb:DescribeTimeToLive"
         ]
         Resource  = "arn:aws:dynamodb:eu-central-1:864899869895:table/${var.terraform_state_lock_table_name}"
       },
