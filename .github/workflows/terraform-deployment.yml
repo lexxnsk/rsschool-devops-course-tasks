@@ -54,7 +54,7 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: .terraform*
-          key: terraform-cache-${{ runner.os }}-${{ github.run_id }}-${{ hashFiles('.terraform*') }}
+          key: terraform-cache-${{ runner.os }}-${{ github.run_id }}
 
   terraform_check:
     runs-on: ubuntu-latest
@@ -82,7 +82,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: .terraform
-          key: terraform-cache-${{ runner.os }}-${{ github.run_id }}-${{ hashFiles('.terraform*') }}
+          key: terraform-cache-${{ runner.os }}-${{ github.run_id }}
           fail-on-cache-miss: true
 
       - name: List files in the working directory
@@ -121,7 +121,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: .terraform
-          key: terraform-cache-${{ runner.os }}-${{ github.run_id }}-${{ hashFiles('.terraform*') }}
+          key: terraform-cache-${{ runner.os }}-${{ github.run_id }}
           fail-on-cache-miss: true
 
       # - name: Configure AWS credentials
