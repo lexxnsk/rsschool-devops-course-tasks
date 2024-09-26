@@ -105,10 +105,12 @@ resource "aws_iam_role_policy_attachment" "eventbridge_full_access" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEventBridgeFullAccess"
 }
 
-resource "aws_iam_role_policy_attachment" "AmazonDynamoDBFullAccess" {
-  role       = aws_iam_role.terraform_github_actions_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
-}
+# resource "aws_iam_role_policy_attachment" "AmazonDynamoDBFullAccess" {
+#   role       = aws_iam_role.terraform_github_actions_role.name
+#   policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
+# }
+
+# Attach Policies to the IAM role
 
 # GitHub Actions OIDC Provider
 resource "aws_iam_openid_connect_provider" "github_actions_IODC_provider" {
