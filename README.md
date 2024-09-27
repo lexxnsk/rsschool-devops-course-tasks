@@ -47,8 +47,8 @@ You can list it using this command:
 ```gh secret list --repo lexxnsk/rsschool-devops-course-tasks```
 
 ---
-**NOTE**
-AWS Account ID variable ```aws_account_id``` should be in lowercase, because it is used by Terraform, which is case sensitive.
+**NOTE:**
+The AWS Account ID variable ```aws_account_id``` should be in lowercase. This is essential because Terraform is case-sensitive and requires consistency in variable naming.
 
 ---
 
