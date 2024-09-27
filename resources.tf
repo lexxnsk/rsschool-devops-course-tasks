@@ -63,8 +63,8 @@ data "aws_iam_policy_document" "github_actions_assume_role_policy" {
     condition {
       test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:lexxnsk/rsschool-devops-course-tasks:*"]
-      # values   = ["repo:lexxnsk/rsschool-devops-course-tasks:ref:refs/heads/dev*"] # Uncomment it to make condition more strict
+      # values   = ["repo:lexxnsk/rsschool-devops-course-tasks:*"]
+      values   = ["repo:lexxnsk/rsschool-devops-course-tasks:ref:refs/heads/task_1"] # Uncomment it to make condition more strict
     }
   }
 }
