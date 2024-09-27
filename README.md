@@ -36,6 +36,14 @@ This repository contains the Terraform configuration files used for provisioning
 - **```variables.tf```**:  
   This file defines the input variables for the Terraform project. This includes variable types, default values, and descriptions, which allow users to customize the deployment.
 
+### GitHub variables and GitHub Secrets variables
+
+AWS Account ID variable ```aws_account_id``` is stored in GitHub Secrets. It was created using this command:
+```gh secret set AWS_ACCOUNT_ID --body "<AWS_ACCOUNT_ID>" --repo lexxnsk/rsschool-devops-course-tasks```
+You can list it using this command:
+```gh secret list --repo lexxnsk/rsschool-devops-course-tasks```
+
+
 ## How to Use
 
 1. **Initialize Terraform:**  
