@@ -6,12 +6,13 @@ on:
   pull_request:
   push:
     branches:
-      - dev
+      - task_1
 
 env:
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
   TF_VAR_aws_account_id: ${{ secrets.AWS_ACCOUNT_ID }}
   TERRAFORM_GITHUB_ACTIONS_ROLE_NAME: ${{ vars.TERRAFORM_GITHUB_ACTIONS_ROLE_NAME }}
+  TERRAFORM_VERSION: ${{ vars.TERRAFORM_VERSION }}
 
 permissions:
   id-token: write
@@ -33,7 +34,7 @@ jobs:
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.9.6
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
 
       - name: Terraform Init
         run: terraform init
