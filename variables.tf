@@ -17,6 +17,12 @@ variable "terraform_state_s3_bucket_name" {
   default     = "amyslivets.terraform-state-s3-bucket"
 }
 
+variable "terraform_tfstate_file_name" {
+  description = "The name of the file where Terraform stores the state of its managed infrastructure and configuration"
+  type        = string
+  default     = "terraform.tfstate"
+}
+
 variable "terraform_state_lock_table_name" {
   description = "The Name of the DynamoDB table for storing Terraform locking state"
   type        = string
