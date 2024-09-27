@@ -83,7 +83,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/${{ env.TERRAFORM_GITHUB_ACTIONS_ROLE_NAME }}
 
       - name: Terraform Plan
-        run: terraform plan
+        run: terraform plan -input=false
 
   terraform_apply:
     runs-on: ubuntu-latest
