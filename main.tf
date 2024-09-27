@@ -2,10 +2,10 @@
 
 terraform {
   backend "s3" {
-    bucket         = var.terraform_state_s3_bucket_name
-    key            = var.terraform_tfstate_file_name
-    region         = var.aws_region
+    bucket         = "amyslivets.terraform-state-s3-bucket"
+    key            = "terraform.tfstate"
+    region         = "eu-central-1"
     encrypt        = true
-    dynamodb_table = var.terraform_state_lock_table_name
+    dynamodb_table = "amyslivets.terraform-state-lock-table"
   }
 }
