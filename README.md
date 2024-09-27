@@ -40,8 +40,9 @@ This repository contains the Terraform configuration files used for provisioning
   This file defines the input variables for the Terraform project. This includes variable types, default values, and descriptions, which allow users to customize the deployment.
 
 ### GitHub variables and GitHub Secrets variables
- 1. IAM role variable ```TERRAFORM_GITHUB_ACTIONS_ROLE_NAME``` is stored in GitHub Variables. It was created using this command:  
+ 1. IAM role variable ```TERRAFORM_GITHUB_ACTIONS_ROLE_NAME``` and Terraform version variable ```TERRAFORM_VERSION``` are stored in GitHub Variables. It were created using these commands:  
 ```gh variable set TERRAFORM_GITHUB_ACTIONS_ROLE_NAME --body "GithubActionsRole" --repo lexxnsk/rsschool-devops-course-tasks```  
+```gh variable set TERRAFORM_VERSION --body "1.9.6" --repo lexxnsk/rsschool-devops-course-tasks```  
 You can list it using this command:  
 ```gh variable list --repo lexxnsk/rsschool-devops-course-tasks```  
 2. AWS Account ID variable ```aws_account_id``` is stored in GitHub Secrets. It was created using this command:  
