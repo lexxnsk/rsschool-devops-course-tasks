@@ -106,4 +106,4 @@ jobs:
           role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/${{ env.TERRAFORM_GITHUB_ACTIONS_ROLE_NAME }}
 
       - name: Terraform Apply
-        run: terraform apply
+        run: terraform apply -auto-approve
