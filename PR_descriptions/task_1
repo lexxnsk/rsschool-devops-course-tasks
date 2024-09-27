@@ -5,6 +5,7 @@
 5. Score: 100 / 100
 - MFA User configured (10 points)
   - [+] Provide a screenshot of the non-root account secured by MFA (ensure sensitive information is not shared).
+    https://github.com/lexxnsk/rsschool-devops-course-tasks/tree/task_1/screenshots
 
 - Bucket and GithubActionsRole IAM role configured (30 points)
   - Terraform code is created and includes:
@@ -27,3 +28,4 @@
     - [+] Document the infrastructure setup and usage in a README file.
   Submission (5 points)
     - [+] A GitHub Actions (GHA) pipeline is passing
+      https://github.com/lexxnsk/rsschool-devops-course-tasks/actions/workflows/terraform-deployment.yml
