@@ -4,20 +4,19 @@
 
 output "aws_region" {
   value       = var.aws_region
-  description = "The AWS region"
 }
 
-output "terraform_state_s3_bucket_name" {
-  value = aws_s3_bucket.terraform_state_s3_bucket.bucket
-}
+# output "terraform_state_s3_bucket_name" {
+#   value = aws_s3_bucket.terraform_state_s3_bucket.bucket
+# }
 
-output "terraform_state_lock_table_name" {
-  value = aws_dynamodb_table.terraform_state_lock_table.id
-}
+# output "terraform_state_lock_table_name" {
+#   value = aws_dynamodb_table.terraform_state_lock_table.id
+# }
 
-output "terraform_github_actions_role" {
-  value = aws_iam_role.terraform_github_actions_role.arn
-}
+# output "terraform_github_actions_role" {
+#   value = aws_iam_role.terraform_github_actions_role.arn
+# }
 
 # # # # # # # # # # Task_1 code end # # # # # # # # # #
 
@@ -25,20 +24,26 @@ output "terraform_github_actions_role" {
 
 # # # # # # # # # # Task_2 code start # # # # # # # # # #
 
-output "main_vpc" {
-  value = aws_vpc.main_vpc.id
+
+output "bastion_host_public_ip" {
+  value = aws_instance.bastion_host.public_ip
 }
 
-# output "public_subnets" {
-#   value = aws_subnet.public[*].id
-# }
-
-output "private_subnets" {
-  value = aws_subnet.private[*].id
+output "bastion_host_private_ip" {
+  value = aws_instance.bastion_host.private_ip
 }
 
-output "aws_internet_gateway" {
-  value = aws_internet_gateway.igw.id
+output "dummy_host_public_ip" {
+  value = aws_instance.dummy_host.public_ip
 }
 
-# # # # # # # # # # Task_2 code end # # # # # # # # # #
+output "dummy_host_private_ip" {
+  value = aws_instance.dummy_host.private_ip
+}
+
+output "private_key" {
+  value     = tls_private_key.my_key.private_key_pem
+  sensitive = true
+}
+
+# # # # # # # # # # # Task_2 code end # # # # # # # # # #

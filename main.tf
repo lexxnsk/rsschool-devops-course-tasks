@@ -8,4 +8,11 @@ terraform {
     encrypt        = true
     dynamodb_table = "amyslivets.terraform-state-lock-table"
   }
+  required_providers {
+    tls = {
+      source  = "hashicorp/tls"
+      version = "~> 4.0"
+    }
+  }
+  required_version = ">= 0.12"  # Specify your Terraform version
 }
