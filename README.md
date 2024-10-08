@@ -63,15 +63,15 @@ The AWS Account ID variable ```aws_account_id``` should be in lowercase. This is
    ```terraform init```
 2. **Plan and Apply Changes:**  
    Review changes by running:
-   ```terraform plan```  
+   ```terraform plan -var="aws_account_id=XXXXXXXXXXXX"```  
    Apply changes by running:
-   ```terraform apply```
+   ```terraform apply -var="aws_account_id=XXXXXXXXXXXX"```
 3. **Migrate Terraform S3 backend to S3:**  
    Uncomment terraform backend configuration in ```main.tf``` and initialize Terraform by running:  
    ```terraform init```
 4. **Plan and Apply Changes:**  
    Review changes by running:
-   ```terraform plan```  
+   ```terraform plan -var="aws_account_id=XXXXXXXXXXXX"```  
    Apply changes by running:
-   ```terraform apply```
-5. **Now you have up and running Terraform using S3 bucket and Dynamo DB as a backend**:  
+   ```terraform apply -var="aws_account_id=XXXXXXXXXXXX"```
+5. **Now you have up and running Terraform using S3 bucket and Dynamo DB as a backend.**  

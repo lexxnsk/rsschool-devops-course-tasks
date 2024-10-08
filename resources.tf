@@ -1,5 +1,7 @@
 # resources.tf
 
+# # # # # # # # # # Task_1 code start # # # # # # # # # #
+
 # S3 bucket for storing Terraform state
 resource "aws_s3_bucket" "terraform_state_s3_bucket" {
   bucket        = var.terraform_state_s3_bucket_name
@@ -110,3 +112,193 @@ resource "aws_iam_openid_connect_provider" "github_actions_IODC_provider" {
     Environment = var.terraform_environment
   }
 }
+
+# # # # # # # # # # Task_1 code end # # # # # # # # # #
+
+
+
+# # # # # # # # # # Task_2 code start # # # # # # # # # #
+
+# Create VPC
+resource "aws_vpc" "main_vpc" {
+  cidr_block = var.vpc_cidr
+  tags = {
+    Name = "Main VPC"
+  }
+}
+
+# Create Public Subnets
+resource "aws_subnet" "public" {
+  count             = length(var.public_subnets)
+  vpc_id            = aws_vpc.main_vpc.id
+  cidr_block        = var.public_subnets[count.index]
+  availability_zone = element(var.availability_zones, count.index)
+  map_public_ip_on_launch = true
+  tags = {
+    Name = "Public_Subnet_${count.index + 1}"
+  }
+}
+
+# Create Private Subnets
+resource "aws_subnet" "private" {
+  count             = length(var.private_subnets)
+  vpc_id            = aws_vpc.main_vpc.id
+  cidr_block        = var.private_subnets[count.index]
+  availability_zone = element(var.availability_zones, count.index)
+  tags = {
+    Name = "Private_Subnet_${count.index + 1}"
+  }
+}
+
+# Create Internet Gateway
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.main_vpc.id
+  tags = {
+    Name = "Internet Gateway"
+  }
+}
+
+# Create Public Route Table
+resource "aws_route_table" "public" {
+  vpc_id = aws_vpc.main_vpc.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.igw.id
+  }
+  route {
+    cidr_block = var.vpc_cidr
+    gateway_id = "local"
+  }
+    tags = {
+    Name = "Public Route Table"
+  }
+}
+
+# Create Private Route Table
+resource "aws_route_table" "private" {
+  vpc_id = aws_vpc.main_vpc.id
+  route {
+    cidr_block = var.vpc_cidr
+    gateway_id = "local"
+  }
+  tags = {
+    Name = "Private Route Table"
+  }
+}
+
+# Associate Public Subnets with Public Route Table
+resource "aws_route_table_association" "public_association" {
+  count          = length(var.public_subnets)
+  subnet_id      = aws_subnet.public[count.index].id
+  route_table_id = aws_route_table.public.id
+}
+
+# Associate Private Subnets with Internal Route Table
+resource "aws_route_table_association" "private_association" {
+  count          = length(var.private_subnets)
+  subnet_id      = aws_subnet.private[count.index].id
+  route_table_id = aws_route_table.private.id
+}
+
+# Create security group allowing only HTTPS traffic (just as an example)
+resource "aws_security_group" "allow_https" {
+  vpc_id = aws_vpc.main_vpc.id
+  name   = "allow_https"
+  description = "Security group for Public Subnets"
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "all"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags = {
+    Name = "Allow HTTPS Only"
+  }
+}
+
+# Create a Public Network ACL
+resource "aws_network_acl" "public_acl" {
+  vpc_id = aws_vpc.main_vpc.id
+  tags = {
+    Name = "Public Network ACL"
+  }
+}
+
+# Create Inbound Rule for the Public Network ACL
+resource "aws_network_acl_rule" "inbound_rule" {
+  network_acl_id = aws_network_acl.public_acl.id
+  rule_number     = 100
+  egress          = false
+  protocol        = "tcp"
+  rule_action     = "allow"
+  cidr_block      = "0.0.0.0/0"
+  from_port       = 443
+  to_port         = 443
+}
+
+# Create Outbound Rule for the Public Network ACL
+resource "aws_network_acl_rule" "outbound_rule" {
+  network_acl_id = aws_network_acl.public_acl.id
+  rule_number     = 100
+  egress          = true
+  protocol        = "all"
+  rule_action     = "allow"
+  cidr_block      = "0.0.0.0/0"
+  from_port       = 0
+  to_port         = 0
+}
+
+# Associate the created Network ACL with public subnets
+resource "aws_network_acl_association" "public_nacl_associsasion" {
+  count          = length(var.public_subnets)
+  subnet_id      = aws_subnet.public[count.index].id
+  network_acl_id = aws_network_acl.public_acl.id
+}
+
+# Create security group allowing only SSH traffic (for Bastion Host)
+resource "aws_security_group" "allow_ssh" {
+  vpc_id     = aws_vpc.main_vpc.id
+  name        = "allow_ssh"
+  description = "Security group for Bastion Host"
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = var.ssh_source_ip
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags = {
+    Name = "Allow SSH Only"
+  }
+}
+
+# Create a Bastion Host instance for secure access to private subnets
+resource "aws_instance" "bastion" {
+  ami           = var.ec2_ami_amazon_linux
+  instance_type = "t2.micro"
+  subnet_id     = aws_subnet.public[0].id
+  security_groups = [aws_security_group.allow_ssh.id]
+  tags = {
+    Name = "Bastion Host"
+  }
+}
+
+# Create a route in the private route table to direct traffic to a Bastion Host
+resource "aws_route" "private_route" {
+  route_table_id         = aws_route_table.private.id
+  destination_cidr_block = "0.0.0.0/0"
+  instance_id            = aws_instance.bastion.id
+}
+
+# # # # # # # # # # Task_2 code end # # # # # # # # # #
