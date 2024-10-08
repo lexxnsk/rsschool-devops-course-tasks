@@ -6,6 +6,8 @@ output "aws_region" {
   value       = var.aws_region
 }
 
+# Uncomment it if you need to debug TerraForm Backend
+
 # output "terraform_state_s3_bucket_name" {
 #   value = aws_s3_bucket.terraform_state_s3_bucket.bucket
 # }
@@ -41,7 +43,7 @@ output "dummy_host_private_ip" {
   value = aws_instance.dummy_host.private_ip
 }
 
-output "private_key" {
+output "private_keyyyyyy" {
   value     = tls_private_key.my_key.private_key_pem
   sensitive = true
 }
