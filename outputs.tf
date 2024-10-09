@@ -3,7 +3,7 @@
 # # # # # # # # # # Task_1 code start # # # # # # # # # #
 
 output "aws_region" {
-  value       = var.aws_region
+  value = var.aws_region
 }
 
 # Uncomment it if you need to debug TerraForm Backend

@@ -13,7 +13,7 @@ resource "aws_instance" "bastion_host" {
     aws_security_group.allow_ssh.id,
     aws_security_group.allow_icmp.id
   ]
-  key_name      = aws_key_pair.my_key.key_name
+  key_name = aws_key_pair.my_key.key_name
   tags = {
     Name = "Bastion Host"
   }
@@ -28,7 +28,7 @@ resource "aws_instance" "dummy_host" {
     aws_security_group.allow_ssh.id,
     aws_security_group.allow_icmp.id
   ]
-  key_name      = aws_key_pair.my_key.key_name
+  key_name = aws_key_pair.my_key.key_name
   tags = {
     Name = "Dummy Host"
   }

@@ -15,7 +15,7 @@ resource "aws_route_table" "public" {
     cidr_block = var.vpc_cidr
     gateway_id = "local"
   }
-    tags = {
+  tags = {
     Name = "Public Route Table"
   }
 }
@@ -28,7 +28,7 @@ resource "aws_route_table" "private" {
     gateway_id = "local"
   }
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block     = "0.0.0.0/0"
     nat_gateway_id = aws_nat_gateway.nat_gateway.id
   }
   tags = {
