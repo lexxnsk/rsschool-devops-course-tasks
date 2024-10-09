@@ -22,10 +22,7 @@ resource "aws_nat_gateway" "nat_gateway" {
 }
 
 # Add a route in the private route table to direct traffic to the NAT Gateway
-resource "aws_route" "private_route" {
-  route_table_id         = aws_route_table.private.id
-  destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = aws_nat_gateway.nat_gateway.id
-}
+# Route is added in route_tables.tf in aws_route_table.private
+
 
 # # # # # # # # # # # Task_2 code end # # # # # # # # # #
