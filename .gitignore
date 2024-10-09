@@ -5,3 +5,6 @@
 
 #Exclude MacOS garbage
 *.DS_Store
+
+#Exclude SSH keys
+*.pem

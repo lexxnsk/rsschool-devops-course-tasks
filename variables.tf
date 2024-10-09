@@ -1,5 +1,7 @@
 # variables.tf
 
+# # # # # # # # # # Task_1 code start # # # # # # # # # #
+
 variable "aws_region" {
   description = "Default AWS region for resource deployment"
   type        = string
@@ -80,3 +82,42 @@ variable "terraform_dynamodb_access_allowed_actions" {
     "dynamodb:ListTagsOfResource"
   ]
 }
+
+# # # # # # # # # # Task_1 code end # # # # # # # # # #
+
+
+
+
+# # # # # # # # # # Task_2 code start # # # # # # # # # #
+
+variable "vpc_cidr" {
+  description = "CIDR block for the VPC"
+  default     = "10.0.0.0/22"
+}
+
+variable "public_subnets" {
+  description = "List of CIDR blocks for public subnets"
+  default     = ["10.0.0.0/24", "10.0.1.0/24"]
+}
+
+variable "private_subnets" {
+  description = "List of CIDR blocks for private subnets"
+  default     = ["10.0.2.0/24", "10.0.3.0/24"]
+}
+
+variable "availability_zones" {
+  description = "Availability zones"
+  default     = ["eu-central-1a", "eu-central-1b"]
+}
+
+variable "ssh_source_ip" {
+  description = "IP address of the device allowed to connect to the Bastion Host"
+  default     = ["0.0.0.0/0"] # Replace with your IP 
+}
+
+variable "ec2_ami_amazon_linux" {
+  description = "Amazon Linux 2 AMI (HVM) - Kernel 5.10, SSD Volume Type 64-bit (x86)"
+  default     = "ami-0e6a13e7a5b66ff4d"
+}
+
+# # # # # # # # # # Task_2 code end # # # # # # # # # #
