@@ -121,3 +121,19 @@ variable "ec2_ami_amazon_linux" {
 }
 
 # # # # # # # # # # Task_2 code end # # # # # # # # # #
+
+
+
+# # # # # # # # # # Task_3 code start # # # # # # # # # #
+
+variable "private_key_file" {
+  description = "The name of the file where the private key will be stored"
+  default     = "aws.pem"
+}
+
+variable "ec2_ami_k3s" {
+  description = "ASUSE Linux Enterprise Server 15 SP6 (HVM), SSD Volume Type (64-bit (x86))"
+  default     = "ami-0a30b5c74f844a814"
+}
+
+# # # # # # # # # # Task_3 code end # # # # # # # # # #

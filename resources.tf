@@ -150,8 +150,22 @@ resource "aws_key_pair" "my_key" {
   public_key = tls_private_key.my_key.public_key_openssh
 }
 
-# In order to save private_key run these commands:
+# In order to save private_key manually run these commands:
 # terraform output private_key > my_key.pem
 # chmod 400 my_key.pem 
+
+# Write the private key to the specified file and set permissions
+resource "null_resource" "write_private_key" {
+  provisioner "local-exec" {
+    command = <<-EOF
+              echo '${tls_private_key.my_key.private_key_pem}' > ${var.private_key_file}
+              chmod 400 ${var.private_key_file}
+              EOF
+  }
+  depends_on = [tls_private_key.my_key]
+  triggers = {
+    fileexists = "${fileexists(var.private_key_file)}"
+  }
+}
 
 # # # # # # # # # # # Task_2 code end # # # # # # # # # #

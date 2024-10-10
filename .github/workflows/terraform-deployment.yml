@@ -7,7 +7,6 @@ on:
   push:
     branches:
       - task_xxx # Replace with your branch name to test GitHub Actions without pushing to the dev branch
-      - task_2
       - dev
 
 env:
