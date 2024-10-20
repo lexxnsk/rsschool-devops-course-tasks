@@ -105,3 +105,14 @@ The AWS Account ID variable ```aws_account_id``` should be in lowercase. This is
 ## How to Use it automatically:
 1. **GitHub Actions:**  
    Before committing, check the ```.github/workflows/terraform-deployment.yml``` file and update the branch name to trigger the GitHub workflow automatically.​⬤
+
+
+---
+## Task 3 clarifications:
+**K3S installation consists of 2 nodes:**  
+You can check its status by:  
+```sudo /usr/local/bin/k3s kubectl get node```
+```sudo /usr/local/bin/k3s kubectl get pods```
+
+App deployment is done by executing:  
+```sudo /usr/local/bin/k3s kubectl apply -f https://k8s.io/examples/pods/simple-pod.yaml```
