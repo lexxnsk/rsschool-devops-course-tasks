@@ -54,7 +54,7 @@ output "aws_region" {
 # }
 
 output "private_key_file" {
-  value     = var.private_key_file
+  value = var.private_key_file
 }
 
 # # # # # # # # # # Task_2 code end # # # # # # # # # #
