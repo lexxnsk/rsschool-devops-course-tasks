@@ -1,7 +1,7 @@
 # Task 3 - Pull Request description
 1. Task: [CLICK ME](https://github.com/rolling-scopes-school/tasks/blob/master/devops/modules/2_cluster-configuration/task_3.md)
 2. Screenshots (if needed): Check ./screenshots/ folder
-3. Code: [CLICK ME](https://github.com/lexxnsk/rsschool-devops-course-tasks/tree/task3)
+3. Code: [CLICK ME](https://github.com/lexxnsk/rsschool-devops-course-tasks/tree/task_3)
 4. Done 2024-10-20 17:00 / deadline 2024-10-21 02:59
 5. Score: 100 / 100
 ###### Evaluation Criteria (100 points for covering all criteria)
