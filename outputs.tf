@@ -27,6 +27,42 @@ output "aws_region" {
 # # # # # # # # # # Task_2 code start # # # # # # # # # #
 
 
+# output "bastion_host_public_ip" {
+#   value = aws_instance.bastion_host.public_ip
+# }
+
+# output "bastion_host_private_ip" {
+#   value = aws_instance.bastion_host.private_ip
+# }
+
+# output "dummy_host_public_ip" {
+#   value = aws_instance.dummy_host.public_ip
+# }
+
+# output "dummy_host_private_ip" {
+#   value = aws_instance.dummy_host.private_ip
+# }
+
+# output "private_key" {
+#   value     = tls_private_key.my_key.private_key_pem
+#   sensitive = true
+# }
+
+# output "public_key" {
+#   value     = aws_key_pair.my_key.public_key
+#   sensitive = true
+# }
+
+output "private_key_file" {
+  value = var.private_key_file
+}
+
+# # # # # # # # # # Task_2 code end # # # # # # # # # #
+
+
+
+# # # # # # # # # # Task_3 code start # # # # # # # # # #
+
 output "bastion_host_public_ip" {
   value = aws_instance.bastion_host.public_ip
 }
@@ -35,17 +71,16 @@ output "bastion_host_private_ip" {
   value = aws_instance.bastion_host.private_ip
 }
 
-output "dummy_host_public_ip" {
-  value = aws_instance.dummy_host.public_ip
+output "control_node_public_ip" {
+  value = aws_instance.control_node.public_ip
 }
 
-output "dummy_host_private_ip" {
-  value = aws_instance.dummy_host.private_ip
+output "control_node_private_ip" {
+  value = aws_instance.control_node.private_ip
 }
 
-output "private_keyyyyyy" {
-  value     = tls_private_key.my_key.private_key_pem
-  sensitive = true
+output "agent_node_private_ip" {
+  value = aws_instance.agent_node.private_ip
 }
 
-# # # # # # # # # # # Task_2 code end # # # # # # # # # #
+# # # # # # # # # # Task_3 code end # # # # # # # # # #
