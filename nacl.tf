@@ -45,7 +45,7 @@ resource "aws_network_acl_rule" "inbound_rule_ephemeral" {
   protocol       = "tcp"
   rule_action    = "allow"
   cidr_block     = "0.0.0.0/0"
-  from_port      = 1024
+  from_port      = 80
   to_port        = 65535
 }
 

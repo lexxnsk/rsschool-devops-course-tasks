@@ -131,8 +131,13 @@ variable "private_key_file" {
   default     = "aws.pem"
 }
 
+variable "ec2_instance_k3s" {
+  description = "Instance type for deploying k3s on AWS"
+  default     = "t3.small"
+}
+
 variable "ec2_ami_k3s" {
-  description = "ASUSE Linux Enterprise Server 15 SP6 (HVM), SSD Volume Type (64-bit (x86))"
+  description = "SUSE Linux Enterprise Server 15 SP6 (HVM), SSD Volume Type (64-bit (x86))"
   default     = "ami-0a30b5c74f844a814"
 }
 
