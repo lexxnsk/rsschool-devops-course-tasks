@@ -71,16 +71,16 @@ output "bastion_host_private_ip" {
   value = aws_instance.bastion_host.private_ip
 }
 
-output "control_node_public_ip" {
-  value = aws_instance.control_node.public_ip
+output "server_node_public_ip" {
+  value = aws_instance.server_node.public_ip
 }
 
-output "control_node_private_ip" {
-  value = aws_instance.control_node.private_ip
+output "server_node_private_ip" {
+  value = aws_instance.server_node.private_ip
 }
 
-output "agent_node_private_ip" {
-  value = aws_instance.agent_node.private_ip
+output "agent_node_1_private_ip" {
+  value = aws_instance.agent_node_1.private_ip
 }
 
 # # # # # # # # # # Task_3 code end # # # # # # # # # #

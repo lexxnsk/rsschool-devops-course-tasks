@@ -64,14 +64,16 @@ This repository contains the Terraform configuration files used for provisioning
   This file defines the Virtual Private Cloud (VPC) and related core networking components, such as the CIDR block, tags, and the overall network structure for resources within the VPC.
 
 ### GitHub variables and GitHub Secrets variables
- 1. The IAM role variable ```TERRAFORM_GITHUB_ACTIONS_ROLE_NAME``` and the Terraform version variable ```TERRAFORM_VERSION``` are stored in GitHub Variables. They were created using the following commands:  
+ 1. **The IAM role variable** ```TERRAFORM_GITHUB_ACTIONS_ROLE_NAME``` and the Terraform version variable ```TERRAFORM_VERSION``` are stored in GitHub Variables. They were created using the following commands:  
 ```gh variable set TERRAFORM_GITHUB_ACTIONS_ROLE_NAME --body "GithubActionsRole" --repo lexxnsk/rsschool-devops-course-tasks```  
 ```gh variable set TERRAFORM_VERSION --body "1.9.6" --repo lexxnsk/rsschool-devops-course-tasks```  
-You can list it using the following command:  
-```gh variable list --repo lexxnsk/rsschool-devops-course-tasks```  
-2. AWS Account ID variable ```aws_account_id``` is stored in GitHub Secrets. It was created using the following command:  
+2. **AWS Account ID variable** ```aws_account_id``` is stored in GitHub Secrets. It was created using the following command:  
 ```gh secret set AWS_ACCOUNT_ID --body "<AWS_ACCOUNT_ID>" --repo lexxnsk/rsschool-devops-course-tasks```  
-You can list it using the following command:  
+3. **K3S token variable** ```K3S_TOKEN``` is stored in GitHub Secrets. It was created using the following command:  
+```gh secret set K3S_TOKEN --body "<K3S_TOKEN>" --repo lexxnsk/rsschool-devops-course-tasks```  
+
+You can list variables and secrets using the following commands:  
+```gh variable list --repo lexxnsk/rsschool-devops-course-tasks```  
 ```gh secret list --repo lexxnsk/rsschool-devops-course-tasks```  
 
 ---
@@ -109,10 +111,24 @@ The AWS Account ID variable ```aws_account_id``` should be in lowercase. This is
 
 ---
 ## Task 3 clarifications:
+**K3S token variable is stored in GitHub Secrets.** 
+You can list it using this command:  
+```gh secret list --repo lexxnsk/rsschool-devops-course-tasks```
+
+**Connection to the K3S Server node from your laptop via Bastion Host:**
+- Add your private SSH key (in this case, aws.pem) to the SSH authentication agent:  
+```ssh-add aws.pem```
+- Check it:  
+```ssh-add -l```  
+- Connect to the K3S Server node from your laptop via Bastion Host:  
+```ssh -A -J ec2-user@<PUBLIC_BASTION_IP> -i aws.pem ec2-user@<PRIVATE_K3S_SERVER_NODE_IP>```
+
 **K3S installation consists of 2 nodes:**  
 You can check its status by:  
-```sudo /usr/local/bin/k3s kubectl get node```
+```sudo /usr/local/bin/k3s kubectl get nodes```  
 ```sudo /usr/local/bin/k3s kubectl get pods```
+```sudo /usr/local/bin/k3s kubectl describe pods```
+```sudo /usr/local/bin/k3s kubectl get services```
 
 App deployment is done by executing:  
 ```sudo /usr/local/bin/k3s kubectl apply -f https://k8s.io/examples/pods/simple-pod.yaml```
