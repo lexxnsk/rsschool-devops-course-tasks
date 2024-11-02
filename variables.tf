@@ -126,9 +126,19 @@ variable "ec2_ami_amazon_linux" {
 
 # # # # # # # # # # Task_3 code start # # # # # # # # # #
 
+variable "k3s_token" {
+  description = "K3S_TOKEN. It is stored in GitHub Secrets and taken later from environmental variables"
+  type        = string
+}
+
 variable "private_key_file" {
   description = "The name of the file where the private key will be stored"
   default     = "aws.pem"
+}
+
+variable "ec2_instance_bastion" {
+  description = "Instance type for deploying Bastion on AWS"
+  default     = "t2.small"
 }
 
 variable "ec2_instance_k3s" {
