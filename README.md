@@ -121,8 +121,7 @@ You can list it using this command:
 - Check it:  
 ```ssh-add -l```  
 - Connect to the K3S Server node from your laptop via Bastion Host:  
-```ssh -A -J ec2-user@35.156.196.118 -i aws.pem ec2-user@10.0.2.91```
-Where 35.156.196.118 is a Bastion IP and 10.0.2.91 is a Server node IP.  
+```ssh -A -J ec2-user@<PUBLIC_BASTION_IP> -i aws.pem ec2-user@<PRIVATE_K3S_SERVER_NODE_IP>```
 
 **K3S installation consists of 2 nodes:**  
 You can check its status by:  
