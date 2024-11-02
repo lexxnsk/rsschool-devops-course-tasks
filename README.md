@@ -130,5 +130,36 @@ You can check its status by:
 ```sudo /usr/local/bin/k3s kubectl describe pods```
 ```sudo /usr/local/bin/k3s kubectl get services```
 
+**Connection to the K3S Server node from your laptop using port forwarding:**
+- [Install](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/) KubeCTL binary locally on your laptop]
+- Setup ssh port forwarding to your local machine:
+```ssh -A -J ec2-user@3.127.174.1  ec2-user@10.0.2.106 -L 6443:localhost:6443```
+- Check if it works using curl:
+```
+curl -k https://localhost:6443/                          
+{
+  "kind": "Status",
+  "apiVersion": "v1",
+  "metadata": {},
+  "status": "Failure",
+  "message": "Unauthorized",
+  "reason": "Unauthorized",
+  "code": 401
+}%
+``` 
+- Copy content of a file ```/etc/rancher/k3s/k3s.yaml``` from K3S server node to your laptop
+- Export path to this local file to a variable and check it:
+```
+export KUBECONFIG=/Users/amyslivets/Documents/AWS/k3s.yml
+echo $KUBECONFIG                                         
+/Users/amyslivets/Documents/AWS/k3s.yml
+```
+- Now kubectl should work locally from your laptop:
+```
+amyslivets@MacBook-Air-Alex rsschool-devops-course-tasks % kubectl get nodes
+NAME            STATUS   ROLES                  AGE   VERSION
+ip-10-0-2-106   Ready    control-plane,master   19m   v1.30.6+k3s1
+```
+
 App deployment is done by executing:  
 ```sudo /usr/local/bin/k3s kubectl apply -f https://k8s.io/examples/pods/simple-pod.yaml```

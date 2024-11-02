@@ -79,8 +79,8 @@ output "server_node_private_ip" {
   value = aws_instance.server_node.private_ip
 }
 
-output "agent_node_1_private_ip" {
-  value = aws_instance.agent_node_1.private_ip
-}
+# output "agent_node_1_private_ip" {
+#   value = aws_instance.agent_node_1.private_ip
+# }
 
 # # # # # # # # # # Task_3 code end # # # # # # # # # #

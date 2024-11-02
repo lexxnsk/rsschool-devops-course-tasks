@@ -138,7 +138,7 @@ variable "private_key_file" {
 
 variable "ec2_instance_bastion" {
   description = "Instance type for deploying Bastion on AWS"
-  default     = "t2.small"
+  default     = "t2.micro"
 }
 
 variable "ec2_instance_k3s" {
