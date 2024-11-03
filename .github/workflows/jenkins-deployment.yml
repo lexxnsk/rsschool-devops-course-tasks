@@ -42,8 +42,10 @@ jobs:
 
     - name: Deploy Jenkins
       env:
-        KUBECONFIG: ${{ vars.K3S_CONFIG }}
+        KUBECONFIG: /tmp/k3s.yml
       run: |
+        echo "${{ vars.K3S_CONFIG }}" >> $KUBECONFIG
+        kubectl create namespace jenkins
         kubectl apply -f jenkins-volume.yaml
         kubectl apply -f jenkins-sa.yaml
         helm repo add jenkins https://charts.jenkins.io
