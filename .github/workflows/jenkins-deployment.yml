@@ -2,19 +2,20 @@
 
 name: Jenkins Deployment
 
-# on:
-#   workflow_run:
-#     workflows: [Terraform Deployment]
-#     types:
-#       - completed
+on:
+  workflow_run:
+    workflows:
+      - Terraform Deployment
+    types:
+      - completed
 
 # Uncomment it for debug purposes
-on:
-  push:
-    branches:
-      - task_xxx # Replace with your branch name to test GitHub Actions without pushing to the dev branch
-      - task_4
-      - dev
+# on:
+#   push:
+#     branches:
+#       - task_xxx # Replace with your branch name to test GitHub Actions without pushing to the dev branch
+#       - task_4
+#       - dev
 
 jobs:
   deploy-jenkins:
