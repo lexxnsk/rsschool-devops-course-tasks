@@ -2,11 +2,11 @@
 
 name: Jenkins Deployment
 
-on:
-  workflow_run:
-    workflows: [Terraform Deployment]
-    types:
-      - completed
+# on:
+#   workflow_run:
+#     workflows: [Terraform Deployment]
+#     types:
+#       - completed
 
 # Uncomment it for debug purposes
 on:
