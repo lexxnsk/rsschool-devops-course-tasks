@@ -34,7 +34,7 @@ jobs:
         cat /.ssh/known_hosts
         eval `ssh-agent -s`
         ssh-add - <<< "${{secrets.SSH_PRIVATE_KEY}}"
-        ssh -fN -v -L 6443:localhost:6443 "$EC2_USER@$BASTION_HOST"
+        ssh -fN -v -L 6443:localhost:6443 "$EC2_USER@$BASTION_HOST" -J "$EC2_USER@$K3S_SERVER_HOST"
         # ls
         # # Start SSH agent and add the SSH key
         # eval "$(ssh-agent -s)"
