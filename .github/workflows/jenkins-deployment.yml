@@ -29,19 +29,22 @@ jobs:
         K3S_SERVER_HOST: ${{ vars.K3S_SERVER_HOST }} 
         EC2_USER: ${{ vars.EC2_USER }}
       run: |
-        ls
-        # Start SSH agent and add the SSH key
-        eval "$(ssh-agent -s)"
-        echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-        ssh-add -l
-        # Start SSH port forwarding in the background
-        # Create .ssh directory if it doesn't exist
-        mkdir -p ~/.ssh
-        # Optionally, initialize the known_hosts file
-        touch ~/.ssh/known_hosts
-        touch ~/.ssh/known_hosts2
-        # ssh -o StrictHostKeyChecking=no -A "$EC2_USER@$BASTION_HOST" "$EC2_USER@$K3S_SERVER_HOST" -L 6443:localhost:6443 -N -f -v
-        ssh -o StrictHostKeyChecking=no -A -J "$EC2_USER@$BASTION_HOST" "$EC2_USER@$K3S_SERVER_HOST" -vvvvv "hostname"
+        mkdir ~/.ssh
+        ssh-keyscan -H "$BASTION_HOST" >> ~/.ssh/known_hosts
+        cat /.ssh/known_hosts
+        # ls
+        # # Start SSH agent and add the SSH key
+        # eval "$(ssh-agent -s)"
+        # echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+        # ssh-add -l
+        # # Start SSH port forwarding in the background
+        # # Create .ssh directory if it doesn't exist
+        # mkdir -p ~/.ssh
+        # # Optionally, initialize the known_hosts file
+        # touch ~/.ssh/known_hosts
+        # touch ~/.ssh/known_hosts2
+        # # ssh -o StrictHostKeyChecking=no -A "$EC2_USER@$BASTION_HOST" "$EC2_USER@$K3S_SERVER_HOST" -L 6443:localhost:6443 -N -f -v
+        # ssh -o StrictHostKeyChecking=no -A -J "$EC2_USER@$BASTION_HOST" "$EC2_USER@$K3S_SERVER_HOST" -vvvvv "hostname"
 
     # - name: Set up Kubernetes config
     #   env:
