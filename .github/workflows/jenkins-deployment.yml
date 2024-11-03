@@ -47,7 +47,7 @@ jobs:
     #     scp -J "$EC2_USER@$BASTION_HOST" "$EC2_USER@$K3S_SERVER_HOST:/etc/rancher/k3s/k3s.yml" $KUBECONFIG
     - name: Deploy Jenkinss
       env:
-        KUBECONFIG: ${{ vars.K3S_CONFIG }}
+        KUBECONFIG_FILE: ${{ vars.K3S_CONFIG }}
       run: |
         kubectl apply -f jenkins-volume.yaml
         kubectl apply -f jenkins-sa.yaml
