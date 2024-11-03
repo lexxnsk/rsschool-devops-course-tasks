@@ -40,6 +40,7 @@ jobs:
         KUBECONFIG: /tmp/k3s.yml
       run: |
         echo "${{ vars.K3S_CONFIG }}" >> $KUBECONFIG
+        chmod 600 "$KUBECONFIG"
         kubectl get namespace jenkins || kubectl create namespace jenkins        
         kubectl apply -f jenkins-volume.yaml
         kubectl apply -f jenkins-sa.yaml
