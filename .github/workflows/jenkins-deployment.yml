@@ -33,6 +33,7 @@ jobs:
         # Start SSH agent and add the SSH key
         eval "$(ssh-agent -s)"
         echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+        ssh-add -l
         # Start SSH port forwarding in the background
         # Create .ssh directory if it doesn't exist
         mkdir -p ~/.ssh
