@@ -46,5 +46,5 @@ jobs:
         helm repo add jenkins https://charts.jenkins.io
         helm repo update
         helm upgrade --install jenkins -n jenkins -f jenkins-values.yaml jenkins/jenkins
-        PASSWORD=$(kubectl exec --namespace jenkins -it <jenkins-pod-name> -- /bin/cat /run/secrets/additional/chart-admin-password)
+        PASSWORD=$(kubectl exec --namespace jenkins -it svc/jenkins -- /bin/cat /run/secrets/additional/chart-admin-password)
         echo "Jenkins admin password is: $PASSWORD"
