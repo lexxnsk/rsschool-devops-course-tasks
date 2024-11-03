@@ -35,23 +35,15 @@ jobs:
         echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
         ssh -D 1080 -N -q -o StrictHostKeyChecking=no "$BASTION_USER@$BASTION_HOST" &
 
-    #   env:
-    #     KUBECONFIG: ${{ vars.K3S_CONFIG }}
-    #   run: |
-    #     # Download your k3s.yml from the EC2 instance
-    #     scp -J "$EC2_USER@$BASTION_HOST" "$EC2_USER@$K3S_SERVER_HOST:/etc/rancher/k3s/k3s.yml" $KUBECONFIG
-
     - name: Deploy Jenkinss
       env:
         KUBECONFIG: /tmp/k3s.yml
       run: |
         echo "${{ vars.K3S_CONFIG }}" >> $KUBECONFIG
-        cat /tmp/k3s.yml
-        kubectl get pods -A
-        # kubectl create namespace jenkins
-        # kubectl apply -f jenkins-volume.yaml
-        # kubectl apply -f jenkins-sa.yaml
-        # helm repo add jenkins https://charts.jenkins.io
-        # helm repo update
-        # helm install jenkins -n jenkins -f jenkins-values.yaml jenkins/jenkins
-        # kubectl exec --namespace jenkins -it svc/jenkins -c jenkins -- /bin/cat /run/secrets/additional/chart-admin-password && echo
+        kubectl create namespace jenkins
+        kubectl apply -f jenkins-volume.yaml
+        kubectl apply -f jenkins-sa.yaml
+        helm repo add jenkins https://charts.jenkins.io
+        helm repo update
+        helm install jenkins -n jenkins -f jenkins-values.yaml jenkins/jenkins
+        kubectl exec --namespace jenkins -it svc/jenkins -c jenkins -- /bin/cat /run/secrets/additional/chart-admin-password && echo
