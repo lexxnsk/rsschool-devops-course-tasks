@@ -22,17 +22,18 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    # - name: Install SSH client and configure port forwarding
-    #   env:
-    #     SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-    #     BASTION_HOST: ${{ vars.BASTION_HOST }}
-    #     K3S_SERVER_HOST: ${{ vars.K3S_SERVER_HOST }} 
-    #     EC2_USER: ${{ vars.EC2_USER }}
-    #   run: |
-    #     # Start SSH agent and add the SSH key
-    #     eval "$(ssh-agent -s)"
-    #     echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-    #     ssh -o StrictHostKeyChecking=no -A -J "$EC2_USER@$BASTION_HOST" "$EC2_USER@$K3S_SERVER_HOST" < "hostname"
+    - name: Setup SOCKS5 Proxy
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        BASTION_HOST: ${{ vars.BASTION_HOST }}
+        K3S_SERVER_HOST: ${{ vars.K3S_SERVER_HOST }}
+        BASTION_USER: ${{ vars.BASTION_USER }}
+        EC2_USER: ${{ vars.EC2_USER }}
+      run: |
+        # Start SSH agent and add the SSH key
+        eval "$(ssh-agent -s)"
+        echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+        ssh -D 1080 -N -q -o StrictHostKeyChecking=no "$BASTION_USER@$BASTION_HOST" &
 
     #   env:
     #     KUBECONFIG: ${{ vars.K3S_CONFIG }}
@@ -46,10 +47,11 @@ jobs:
       run: |
         echo "${{ vars.K3S_CONFIG }}" >> $KUBECONFIG
         cat /tmp/k3s.yml
-        kubectl create namespace jenkins
-        kubectl apply -f jenkins-volume.yaml
-        kubectl apply -f jenkins-sa.yaml
-        helm repo add jenkins https://charts.jenkins.io
-        helm repo update
-        helm install jenkins -n jenkins -f jenkins-values.yaml jenkins/jenkins
-        kubectl exec --namespace jenkins -it svc/jenkins -c jenkins -- /bin/cat /run/secrets/additional/chart-admin-password && echo
+        kubectl get pods -A
+        # kubectl create namespace jenkins
+        # kubectl apply -f jenkins-volume.yaml
+        # kubectl apply -f jenkins-sa.yaml
+        # helm repo add jenkins https://charts.jenkins.io
+        # helm repo update
+        # helm install jenkins -n jenkins -f jenkins-values.yaml jenkins/jenkins
+        # kubectl exec --namespace jenkins -it svc/jenkins -c jenkins -- /bin/cat /run/secrets/additional/chart-admin-password && echo
