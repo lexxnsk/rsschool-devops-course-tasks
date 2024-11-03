@@ -34,6 +34,8 @@ jobs:
         eval "$(ssh-agent -s)"
         echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
         # Start SSH port forwarding in the background
+        ssh-keyscan -H "$BASTION_HOST" >> ~/.ssh/known_hosts
+        ssh-keyscan -H "$K3S_SERVER_HOST" >> ~/.ssh/known_hosts
         ssh -f -N -A -J "$EC2_USER@$BASTION_HOST"  "$EC2_USER@$K3S_SERVER_HOST" 6443:localhost:6443 -o StrictHostKeyChecking=no
 
     - name: Set up Kubernetes config
