@@ -7,6 +7,9 @@ on:
     workflows: ["Terraform Deployment"]
     types:
       - completed
+    branches:
+      - task_4
+      - dev
 
 # Uncomment it for debug purposes
 # on:
