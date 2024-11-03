@@ -33,11 +33,7 @@ jobs:
         eval "$(ssh-agent -s)"
         echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
         # Start SSH port forwarding in the background
-        # Create .ssh directory if it doesn't exist
-        mkdir -p ~/.ssh
-        # Optionally, initialize the known_hosts file
-        touch ~/.ssh/known_hosts
-        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts -A -J "$EC2_USER@$BASTION_HOST" "$EC2_USER@$K3S_SERVER_HOST" -L 6443:localhost:6443 
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -A -J "$EC2_USER@$BASTION_HOST" "$EC2_USER@$K3S_SERVER_HOST" -L 6443:localhost:6443 
 
     # - name: Set up Kubernetes config
     #   env:
