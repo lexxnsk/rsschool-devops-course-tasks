@@ -1,0 +1,54 @@
+---
+
+name: Jenkins Deployment via SSH Port Forwarding
+
+# on:
+#   workflow_run:
+#     workflows: ["Terraform Deployment"]
+#     types:
+#       - completed
+
+on:
+  push:
+    branches:
+      - task_xxx # Replace with your branch name to test GitHub Actions without pushing to the dev branch
+      - task_4
+      - dev
+
+jobs:
+  deploy-jenkins:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install SSH client and configure port forwarding
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        BASTION_HOST: ${{ vars.BASTION_HOST }}
+        K3S_SERVER_HOST: ${{ vars.K3S_SERVER_HOST }} 
+        EC2_USER: ${{ vars.EC2_USER }}
+
+      run: |
+        # Start SSH agent and add the SSH key
+        eval "$(ssh-agent -s)"
+        echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+        # Start SSH port forwarding in the background
+        ssh -f -N -A -J "$EC2_USER@$BASTION_HOST"  "$EC2_USER@$K3S_SERVER_HOST" 6443:localhost:6443 -o StrictHostKeyChecking=no
+
+    - name: Set up Kubernetes config
+      env:
+        KUBECONFIG: /tmp/k3s.yml
+      run: |
+        # Download your k3s.yml from the EC2 instance
+        scp "$EC2_USER@$K3S_SERVER_HOST:/etc/rancher/k3s/k3s.yml" $KUBECONFIG
+
+    - name: Deploy Jenkins
+      env:
+        KUBECONFIG: /tmp/k3s.yml
+      run: |
+        kubectl apply -f jenkins-volume.yaml
+        kubectl apply -f jenkins-sa.yaml
+        helm repo add jenkins https://charts.jenkins.io
+        helm repo update
+        helm install jenkins -n jenkins -f jenkins-values.yaml jenkins/jenkins
