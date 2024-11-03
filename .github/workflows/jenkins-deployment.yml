@@ -39,7 +39,7 @@ jobs:
         # Optionally, initialize the known_hosts file
         touch ~/.ssh/known_hosts
         # ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts -f -N -A -J "$EC2_USER@$BASTION_HOST" "$EC2_USER@$K3S_SERVER_HOST" -L 6443:localhost:6443 
-        ssh -A -J -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts "$EC2_USER@$BASTION_HOST" "$EC2_USER@$K3S_SERVER_HOST" -L 6443:localhost:6443 
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts -A -J "$EC2_USER@$BASTION_HOST" "$EC2_USER@$K3S_SERVER_HOST" -L 6443:localhost:6443 
 
     # - name: Set up Kubernetes config
     #   env:
