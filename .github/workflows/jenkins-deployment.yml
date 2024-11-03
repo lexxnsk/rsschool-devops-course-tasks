@@ -1,15 +1,12 @@
 ---
 
-name: Jenkins Deployment via SSH Port Forwarding
+name: Jenkins Deployment
 
 on:
   workflow_run:
     workflows: ["Terraform Deployment"]
     types:
       - completed
-    branches:
-      - task_4
-      - dev
 
 # Uncomment it for debug purposes
 # on:
