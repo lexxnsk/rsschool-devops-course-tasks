@@ -44,7 +44,7 @@ jobs:
         KUBECONFIG: /tmp/k3s.yml
       run: |
         # Download your k3s.yml from the EC2 instance
-        scp -o StrictHostKeyChecking=no -o ProxyJump="$EC2_USER@$BASTION_HOST" "$EC2_USER@$K3S_SERVER_HOST:/etc/rancher/k3s/k3s.yml" $KUBECONFIG
+        scp -o StrictHostKeyChecking=no -o ProxyCommand="ssh -W %h:%p $EC2_USER@$BASTION_HOST" "$EC2_USER@$K3S_SERVER_HOST:/etc/rancher/k3s/k3s.yml" $KUBECONFIG
     - name: Deploy Jenkins
       env:
         KUBECONFIG: /tmp/k3s.yml
