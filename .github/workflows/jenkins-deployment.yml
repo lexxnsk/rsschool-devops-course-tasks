@@ -45,6 +45,7 @@ jobs:
         KUBECONFIG: /tmp/k3s.yml
       run: |
         echo "${{ vars.K3S_CONFIG }}" >> $KUBECONFIG
+        cat /tmp/k3s.yml
         kubectl create namespace jenkins
         kubectl apply -f jenkins-volume.yaml
         kubectl apply -f jenkins-sa.yaml
