@@ -76,11 +76,12 @@ resource "aws_security_group" "allow_k3s" {
   }
 }
 
-# Create security group allowing HTTP traffic
-resource "aws_security_group" "allow_http" {
+# Create security group allowing WEB traffic
+resource "aws_security_group" "allow_web" {
   vpc_id      = aws_vpc.main_vpc.id
-  name        = "allow_http"
-  description = "Security group allowing HTTP traffic"
+  name        = "allow_web"
+  description = "Security group allowing WEB traffic"
+  # Allow HTTP traffic
   ingress {
     from_port   = 80
     to_port     = 80
@@ -93,31 +94,59 @@ resource "aws_security_group" "allow_http" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  # Allow HTTPS traffic
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = var.ssh_source_ip
+  }
+  egress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  # Allow 32478 port (Jenkins)
+  ingress {
+    from_port   = 32000
+    to_port     = 32000
+    protocol    = "tcp"
+    cidr_blocks = var.ssh_source_ip
+  }
+  egress {
+    from_port   = 32000
+    to_port     = 32000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   tags = {
-    Name = "Allow HTTP traffic"
+    Name = "Allow WEB traffic"
   }
 }
 
-# Create security group allowing HTTPS traffic
-resource "aws_security_group" "allow_https" {
-  vpc_id      = aws_vpc.main_vpc.id
-  name        = "allow_https"
-  description = "Security group allowing HTTPS traffic"
-  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = var.ssh_source_ip
-  }
-  egress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  tags = {
-    Name = "Allow HTTPS traffic"
-  }
-}
+# # Create security group allowing HTTPS traffic
+# resource "aws_security_group" "allow_https" {
+#   vpc_id      = aws_vpc.main_vpc.id
+#   name        = "allow_https"
+#   description = "Security group allowing HTTPS traffic"
+
+#   }
+#   tags = {
+#     Name = "Allow HTTPS traffic"
+#   }
+# }
+
+# # Create security group allowing Jenkins WEB traffic
+# resource "aws_security_group" "allow_jenkins" {
+#   vpc_id      = aws_vpc.main_vpc.id
+#   name        = "allow_jenkins"
+#   description = "Security group allowing Jenkins WEB traffic"
+
+#   }
+#   tags = {
+#     Name = "Allow Jenkins WEB traffic"
+#   }
+# }
 
 # # # # # # # # # # # Task_3 code end # # # # # # # # # #

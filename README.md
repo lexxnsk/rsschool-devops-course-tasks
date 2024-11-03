@@ -11,6 +11,9 @@ This repository contains the Terraform configuration files used for provisioning
 ├── README.md
 ├── ec2.tf
 ├── igw.tf
+├── jenkins-sa.yaml
+├── jenkins-values.yaml
+├── jenkins-volume.yaml
 ├── main.tf
 ├── nacl.tf
 ├── nat.tf
@@ -31,7 +34,7 @@ This repository contains the Terraform configuration files used for provisioning
 - **```PR_descriptions/```**:  
   This directory contains the descriptions for Pull Request.
 - **```screenshots/```**:  
-  This directory contains screenshots and texts that verify the correct configuration of AWS accounts and installed software versions.
+  This directory contains necessary screenshots and texts.
 - **```.gitignore```**:  
   This file specifies which files or directories should be ignored by Git when tracking changes in a repository.
 - **```README.md```**:  
@@ -40,6 +43,12 @@ This repository contains the Terraform configuration files used for provisioning
   This file defines resources related to EC2 instances.
 - **```igw.tf```**:  
   This file defines resources related to the Internet Gateway (IGW).
+- **```jenkins-sa.yaml```**:  
+  This file contains the configuration for a Service Account in a K3S cluster that is specifically used for Jenkins.
+- **```jenkins-values.yaml```**:  
+  This file contains configuration values that customize the deployment of Jenkins within a K3S cluster.
+- **```jenkins-volume.yaml```**:  
+  This file contains configuration to define persistent storage for Jenkins in a K3S environment.
 - **```main.tf```**:  
   The main configuration file where the core infrastructure is defined. This typically includes high-level resources such as modules, remote backends, and resource declarations.
 - **```nacl.tf```**:  
@@ -121,14 +130,16 @@ You can list it using this command:
 - Check it:  
 ```ssh-add -l```  
 - Connect to the K3S Server node from your laptop via Bastion Host:  
-```ssh -A -J ec2-user@<PUBLIC_BASTION_IP> -i aws.pem ec2-user@<PRIVATE_K3S_SERVER_NODE_IP>```
+```ssh -A -J ec2-user@<PUBLIC_BASTION_IP>  ec2-user@<PRIVATE_K3S_SERVER_NODE_IP> 6443:localhost:6443```
 
-**K3S installation consists of 2 nodes:**  
+**K3S installation consists of 1 node:**  
 You can check its status by:  
-```sudo /usr/local/bin/k3s kubectl get nodes```  
-```sudo /usr/local/bin/k3s kubectl get pods```
-```sudo /usr/local/bin/k3s kubectl describe pods```
-```sudo /usr/local/bin/k3s kubectl get services```
+```
+kubectl get nodes  
+kubectl get pods
+kubectl describe pods
+kubectl get services
+```
 
 **Connection to the K3S Server node from your laptop using port forwarding:**
 - [Install](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/) KubeCTL binary locally on your laptop]
@@ -148,6 +159,7 @@ curl -k https://localhost:6443/
 }%
 ``` 
 - Copy content of a file ```/etc/rancher/k3s/k3s.yaml``` from K3S server node to your laptop
+- Change permissions to prevent annoying warnings by ```chmod 600 /Users/amyslivets/Documents/AWS/k3s.yml```
 - Export path to this local file to a variable and check it:
 ```
 export KUBECONFIG=/Users/amyslivets/Documents/AWS/k3s.yml
@@ -162,4 +174,71 @@ ip-10-0-2-106   Ready    control-plane,master   19m   v1.30.6+k3s1
 ```
 
 App deployment is done by executing:  
-```sudo /usr/local/bin/k3s kubectl apply -f https://k8s.io/examples/pods/simple-pod.yaml```
+```kubectl apply -f https://k8s.io/examples/pods/simple-pod.yaml```
+
+
+---
+## Task 4 clarifications:
+**K3S preparation:**
+- You can change default K3S namespace by:
+```kubectl config set-context --current --namespace=jenkins```
+- You can install Jenkins using next commands:
+```
+helm repo add jenkins https://charts.jenkins.io
+helm repo update
+kubectl apply -f jenkins-volume.yaml
+kubectl create namespace jenkins
+kubectl apply -f jenkins-sa.yaml    
+chart=jenkinsci/jenkins
+helm install jenkins -n jenkins -f jenkins-values.yaml $chart
+```
+- You can describe pod and then check init container logs for debug:
+```kubectl logs jenkins-0 -c init``` 
+```kubectl describe pod jenkins-0```
+- You can check current pods status and check persistency by:
+```
+kubectl get pods
+kubectl delete pod jenkins-0
+kubectl get pods
+```
+- You can check service by:
+```
+kubectl get svc jenkins -n jenkins
+NAME      TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+jenkins   NodePort   10.43.125.237   <none>        8080:32000/TCP   27m
+```
+- You can check current K3s storage class using this command:  
+```
+kubectl get storageclass
+NAME                   PROVISIONER                    RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+jenkins-pv             kubernetes.io/no-provisioner   Delete          WaitForFirstConsumer   false                  56m
+local-path (default)   rancher.io/local-path          Delete          WaitForFirstConsumer   false                  62m
+```
+- Here is a simple NGINX reverse proxy config to be installed on Bastion Host:
+```
+sudo vi /etc/nginx/conf.d/jenkins.conf
+
+server {
+    listen 80;
+    server_name jenkins.myslivets.ru;
+
+    location / {
+        proxy_pass http://10.0.2.10:8080;        # Forward requests to Jenkins
+        proxy_http_version 1.1;                  # Use HTTP/1.1 for proxying
+        proxy_set_header Upgrade $http_upgrade;  # Handle WebSocket connections
+        proxy_set_header Connection 'upgrade';   # Handle WebSocket connections
+        proxy_set_header Host $host;             # Preserve original Host header
+        proxy_set_header X-Real-IP $remote_addr; # Pass the client IP address
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; # Preserve client IP
+        proxy_set_header X-Forwarded-Proto $scheme; # Preserve protocol (http or https)
+    }
+}
+
+chmod 600 /Users/amyslivets/Documents/AWS/k3s.yml
+sudo nginx -t
+sudo systemctl restart nginx
+``` 
+- You can simulate jenkins on Server Node by running a simple Python Server:
+```
+sudo python3 -m http.server 32000
+```
