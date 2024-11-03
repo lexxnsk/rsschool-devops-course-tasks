@@ -138,17 +138,22 @@ variable "private_key_file" {
 
 variable "ec2_instance_bastion" {
   description = "Instance type for deploying Bastion on AWS"
-  default     = "t2.small"
+  default     = "t2.micro"
 }
 
 variable "ec2_instance_k3s" {
   description = "Instance type for deploying k3s on AWS"
-  default     = "t3.small"
+  default     = "t3.medium"
 }
 
 variable "ec2_ami_k3s" {
   description = "SUSE Linux Enterprise Server 15 SP6 (HVM), SSD Volume Type (64-bit (x86))"
   default     = "ami-0a30b5c74f844a814"
+}
+
+variable "server_node_fixed_private_ip" {
+  description = "Server Node fixed private IP. Hardcoded for easier debugging"
+  default     = "10.0.2.10"
 }
 
 # # # # # # # # # # Task_3 code end # # # # # # # # # #
