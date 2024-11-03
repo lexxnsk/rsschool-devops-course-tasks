@@ -144,7 +144,7 @@ kubectl get services
 **Connection to the K3S Server node from your laptop using port forwarding:**
 - [Install](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/) KubeCTL binary locally on your laptop]
 - Setup ssh port forwarding to your local machine:
-```ssh -A -J ec2-user@3.127.174.1  ec2-user@10.0.2.106 -L 6443:localhost:6443```
+```ssh -A -J ec2-user@3.127.174.1 ec2-user@10.0.2.106 -L 6443:localhost:6443```
 - Check if it works using curl:
 ```
 curl -k https://localhost:6443/                          
@@ -223,7 +223,7 @@ server {
     server_name jenkins.myslivets.ru;
 
     location / {
-        proxy_pass http://10.0.2.10:8080;        # Forward requests to Jenkins
+        proxy_pass http://10.0.2.10:32000;       # Forward requests to Jenkins
         proxy_http_version 1.1;                  # Use HTTP/1.1 for proxying
         proxy_set_header Upgrade $http_upgrade;  # Handle WebSocket connections
         proxy_set_header Connection 'upgrade';   # Handle WebSocket connections
