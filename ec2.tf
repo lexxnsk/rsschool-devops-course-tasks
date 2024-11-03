@@ -112,7 +112,7 @@
 
 # Create a Bastion Host instance for secure access to private subnets
 resource "aws_instance" "bastion_host" {
-  ami           = var.ec2_ami_k3s
+  ami           = var.ec2_ami_ubuntu
   instance_type = var.ec2_instance_bastion
   subnet_id     = aws_subnet.public[0].id
   vpc_security_group_ids = [

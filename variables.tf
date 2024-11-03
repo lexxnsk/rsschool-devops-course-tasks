@@ -120,6 +120,11 @@ variable "ec2_ami_amazon_linux" {
   default     = "ami-0e6a13e7a5b66ff4d"
 }
 
+variable "ec2_ami_ubuntu" {
+  description = "Ubuntu Server 24.04 LTS (HVM), SSD Volume Type 64-bit (x86)"
+  default     = "ami-0084a47cc718c111a"
+}
+
 # # # # # # # # # # Task_2 code end # # # # # # # # # #
 
 

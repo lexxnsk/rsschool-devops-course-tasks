@@ -234,7 +234,6 @@ server {
     }
 }
 
-chmod 600 /Users/amyslivets/Documents/AWS/k3s.yml
 sudo nginx -t
 sudo systemctl restart nginx
 ``` 
