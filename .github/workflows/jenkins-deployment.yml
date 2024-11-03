@@ -51,3 +51,4 @@ jobs:
         helm repo add jenkins https://charts.jenkins.io
         helm repo update
         helm install jenkins -n jenkins -f jenkins-values.yaml jenkins/jenkins
+        kubectl exec --namespace jenkins -it svc/jenkins -c jenkins -- /bin/cat /run/secrets/additional/chart-admin-password && echo
