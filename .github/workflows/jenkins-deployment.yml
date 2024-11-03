@@ -41,7 +41,7 @@ jobs:
         touch ~/.ssh/known_hosts
         touch ~/.ssh/known_hosts2
         # ssh -o StrictHostKeyChecking=no -A "$EC2_USER@$BASTION_HOST" "$EC2_USER@$K3S_SERVER_HOST" -L 6443:localhost:6443 -N -f -v
-        ssh -o StrictHostKeyChecking=no -A -J "$EC2_USER@$BASTION_HOST" "$EC2_USER@$K3S_SERVER_HOST" "hostname"
+        ssh -o StrictHostKeyChecking=no -A -J "$EC2_USER@$BASTION_HOST" "$EC2_USER@$K3S_SERVER_HOST" "hostname" -vvvvv
 
     # - name: Set up Kubernetes config
     #   env:
