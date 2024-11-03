@@ -238,7 +238,7 @@ chmod 600 /Users/amyslivets/Documents/AWS/k3s.yml
 sudo nginx -t
 sudo systemctl restart nginx
 ``` 
-- You can simulate jenkins on Server Node by running a simple Python Server:
+- You can simulate Jenkins on Server Node by running a simple Python Server:
 ```
 sudo python3 -m http.server 32000
 ```
