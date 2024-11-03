@@ -39,15 +39,15 @@ jobs:
         # Optionally, initialize the known_hosts file
         touch ~/.ssh/known_hosts
 
-    - name: Set up Kubernetes config
-      env:
-        KUBECONFIG: /tmp/k3s.yml
-      run: |
-        # Download your k3s.yml from the EC2 instance
-        scp -J "$EC2_USER@$BASTION_HOST" "$EC2_USER@$K3S_SERVER_HOST:/etc/rancher/k3s/k3s.yml" $KUBECONFIG
+    # - name: Set up Kubernetes config
+    #   env:
+    #     KUBECONFIG: ${{ vars.K3S_CONFIG }}
+    #   run: |
+    #     # Download your k3s.yml from the EC2 instance
+    #     scp -J "$EC2_USER@$BASTION_HOST" "$EC2_USER@$K3S_SERVER_HOST:/etc/rancher/k3s/k3s.yml" $KUBECONFIG
     - name: Deploy Jenkins
       env:
-        KUBECONFIG: /tmp/k3s.yml
+        KUBECONFIG: ${{ vars.K3S_CONFIG }}
       run: |
         kubectl apply -f jenkins-volume.yaml
         kubectl apply -f jenkins-sa.yaml
