@@ -142,7 +142,7 @@ kubectl get services
 ```
 
 **Connection to the K3S Server node from your laptop using port forwarding:**
-- [Install](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/) KubeCTL binary locally on your laptop]
+- [Install](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/) Kubectl binary locally on your laptop
 - Setup ssh port forwarding to your local machine:
 ```ssh -A -J ec2-user@3.127.174.1 ec2-user@10.0.2.106 -L 6443:localhost:6443```
 - Check if it works using curl:
@@ -176,6 +176,24 @@ ip-10-0-2-106   Ready    control-plane,master   19m   v1.30.6+k3s1
 App deployment is done by executing:  
 ```kubectl apply -f https://k8s.io/examples/pods/simple-pod.yaml```
 
+**Connection to the K3S Server node from your laptop using SOCKS5 Proxy:**
+- [Install](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/) Kubectl binary locally on your laptop
+- Copy content of a file ```/etc/rancher/k3s/k3s.yaml``` from K3S server node to your laptop
+- Change permissions to prevent annoying warnings by ```chmod 600 /Users/amyslivets/Documents/AWS/k3s.yml```
+- Export path to this local file to a variable and check it:
+```
+export KUBECONFIG=/Users/amyslivets/Documents/AWS/k3s.yml
+echo $KUBECONFIG                                         
+/Users/amyslivets/Documents/AWS/k3s.yml
+```
+- Modify the content of file ```/Users/amyslivets/Documents/AWS/k3s.yml``` by adding proxy-url configuration; 
+For example:
+```
+    proxy-url: socks5://localhost:1080
+    server: https://10.0.2.10:6443
+```
+- Setup SOCKS5 proxy tunnel by doing ssh from your laptop to Bastion Host
+ ```ssh -D 1080 -N -q ubuntu@bastion.rss.myslivets.ru```
 
 ---
 ## Task 4 clarifications:

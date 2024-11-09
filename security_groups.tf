@@ -107,16 +107,16 @@ resource "aws_security_group" "allow_web" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  # Allow 32478 port (Jenkins)
+  # Allow 32xxx
   ingress {
     from_port   = 32000
-    to_port     = 32000
+    to_port     = 33000
     protocol    = "tcp"
     cidr_blocks = var.ssh_source_ip
   }
   egress {
     from_port   = 32000
-    to_port     = 32000
+    to_port     = 33000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
